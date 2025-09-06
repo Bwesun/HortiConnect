@@ -65,3 +65,58 @@ http://ionicframework.com/docs/theming/ */
 	--ion-color-dark-tint: #444444;
 
 }
+
+
+/* OTHER CUSTOM STYLINGS */
+
+.light-bg{
+    --background: var(--ion-color-light);
+    color: var(--ion-color-medium);
+}
+
+.primary-bg{
+    --background: var(--ion-color-primary);
+    color: var(--ion-color-light);
+}
+
+ion-content{
+	margin-bottom: 5rem;
+	--background: var(--ion-color-light);
+}
+
+
+/* TOOL BAR TRANSPARENT */
+ion-toolbar, ion-header{
+    --background: light;
+}
+
+/* MINOR THEME CHANGES */
+ion-tab-bar { /* For Tabs*/
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-light);
+  --color-selected: var(--ion-color-secondary);
+  border-radius: 10rem;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  margin: 0 auto;
+  position: absolute;
+  bottom: .5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 .5rem rgba(0, 0, 0, 0.1);
+}
+
+ion-item, ion-card, ion-list{
+    --background: var(--ion-color-light);
+    color: var(--ion-color-medium);
+}
+
+ion-input, ion-textarea, ion-select{
+	background: var(--ion-color-light) ; 
+	color: var(--ion-color-medium) !important;
+	border-radius: 5rem;
+	padding-left: .5rem;
+	border-bottom: 1px solid rgba(0,0,0, 0.1);
+}
