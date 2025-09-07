@@ -80,7 +80,7 @@ const Profile: React.FC = () => {
             <IonContent color={"light"}>
                 <div className="p-4">
                     <h2 className="text-xl text-green-700 font-bold mb-4">Edit Profile</h2>
-                    <IonItem color={'primary'}>
+                    <IonItem>
                     <IonLabel position="stacked">Name</IonLabel>
                     <IonInput value={name} onIonChange={e => setName(e.detail.value!)} />
                     </IonItem>

@@ -26,8 +26,8 @@ const KanoTomatoCluster: React.FC = () => {
 
         {/* Cluster Details */}
         <section className="p-6 bg-white rounded-lg shadow-md mx-4 mb-6">
-          <ul className="text-gray-700 space-y-2 grid grid-cols-2 md:grid-cols-4 mb-8">
-            <li className='flex gap-4 items-center'>
+          <ul className="text-gray-700 space-y-2 flex flex-wrap gap-4 mb-8">
+            <li className='flex items-center'>
                 <div className="w-10 h-10 rounded-full bg-[#f5e3ce] bg-opacity-20 text-[#fc9219] flex items-center justify-center mr-3">
                     <UsersIcon size={20} />
                 </div>
@@ -36,7 +36,7 @@ const KanoTomatoCluster: React.FC = () => {
                     <p className='text-sm'>125</p>
                 </span>
             </li>
-            <li className='flex gap-4 items-center'>
+            <li className='flex items-center'>
                 <div className="w-10 h-10 rounded-full bg-[#f5e3ce] bg-opacity-20 text-[#fc9219] flex items-center justify-center mr-3">
                     <CalendarIcon size={20} />
                 </div>
@@ -45,7 +45,7 @@ const KanoTomatoCluster: React.FC = () => {
                     <p className='text-sm'>January 2020</p>
                 </span>
             </li>
-            <li className='flex gap-4 items-center'>
+            <li className='flex items-center'>
                 <div className="w-10 h-10 rounded-full bg-[#f5e3ce] bg-opacity-20 text-[#fc9219] flex items-center justify-center mr-3">
                     <UserIcon size={20} />
                 </div>
@@ -70,7 +70,7 @@ const KanoTomatoCluster: React.FC = () => {
           <ul className="text-gray-700 space-y-2">
             <li className='border-l-4 border-green-600 pl-4 py-1 '> 
                 <h3>Monthly Member Meeting </h3>
-                <div className='flex items-center gap-2'> 
+                <div className='flex items-center 4'> 
                     <span className='flex items-center gap-2'>
                         <CalendarIcon size={17} />
                         <p className='text-sm'>Every last Friday</p>
