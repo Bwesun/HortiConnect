@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
-import { Home, Network, ShoppingCart, User } from "lucide-react";
+import { HomeIcon, LayoutDashboard, Network, ShoppingCart, User } from "lucide-react";
 import Tab1 from './pages/Tab1';
 import Tab2 from './pages/Tab2';
 import Tab3 from './pages/Tab3';
@@ -45,41 +45,68 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import { useEffect } from 'react';
+import { StatusBar, Style } from "@capacitor/status-bar"
+import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
+import ClusterDirectory from './pages/ClusterDirectory';
+import ViewCluster from './pages/ViewCluster';
+import Profile from './pages/Profile';
 
 setupIonicReact();
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+
+  // SET STATUS BAR
+  useEffect(() => {
+    const setStatusBar = async () => {
+      try {
+        await StatusBar.setBackgroundColor({ color: "#15803d" });
+        await StatusBar.setOverlaysWebView({ overlay: false });
+        await StatusBar.setStyle({ style: Style.Default });
+      } catch (error) {
+        console.error("Error setting status bar:", error);
+      }
+    };
+
+    setStatusBar();
+  }, []);
+
+  return(
   <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
-          </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
-          </Route>
+          <Route exact path="/home" component={Home}/>
+          <Route exact path="/clusters" component={ClusterDirectory} />
+          <Route exact path="/viewcluster/:id" component={ViewCluster} />
+          <Route exact path="/profile" component={Profile} />
           <Route path="/tab3">
             <Tab3 />
           </Route>
           <Route exact path="/">
-            <Redirect to="/tab1" />
+            <Redirect to="/home" />
           </Route>
+          <Route exact path="/dashboard" component={Dashboard} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
-            <Home size={24} />
+          <IonTabButton tab="home" href="/home">
+            <HomeIcon size={24} />
             <IonLabel>Home</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="dashboard" href="/dashboard">
+            <LayoutDashboard size={24} />
+            <IonLabel>Dashboard</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab5" href="/tab1">
             <ShoppingCart size={24} />
             <IonLabel>Marketplace</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
+          <IonTabButton tab="clusters" href="/clusters">
             <Network size={24} />
-            <IonLabel>Network</IonLabel>
+            <IonLabel>Clusters</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
+          <IonTabButton tab="profile" href="/profile">
             <User size={24} />
             <IonLabel>Profile</IonLabel>
           </IonTabButton>
@@ -87,6 +114,6 @@ const App: React.FC = () => (
       </IonTabs>
     </IonReactRouter>
   </IonApp>
-);
+)};
 
 export default App;
