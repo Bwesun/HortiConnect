@@ -72,7 +72,7 @@ const chartOptions = {
 const Dashboard: React.FC = () => {
     return ( 
         <IonPage>
-            <IonContent fullscreen className="bg-gray-50 min-h-screen">
+            <IonContent fullscreen className="bg-gray-50">
                 <TopNav />
                 <div className="max-w-5xl mx-auto px-4 py-6">
                     {/* Greeting */}
