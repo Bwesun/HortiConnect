@@ -91,23 +91,24 @@ const App: React.FC = () => {
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
           <IonTabButton tab="home" href="/home">
-            <HomeIcon size={24} />
+            <HomeIcon size={20} />
+            
             <IonLabel>Home</IonLabel>
           </IonTabButton>
           <IonTabButton tab="dashboard" href="/dashboard">
-            <LayoutDashboard size={24} />
+            <LayoutDashboard size={20} />
             <IonLabel>Dashboard</IonLabel>
           </IonTabButton>
           <IonTabButton tab="tab5" href="/tab1">
-            <ShoppingCart size={24} />
+            <ShoppingCart size={20} />
             <IonLabel>Marketplace</IonLabel>
           </IonTabButton>
           <IonTabButton tab="clusters" href="/clusters">
-            <Network size={24} />
+            <Network size={20} />
             <IonLabel>Clusters</IonLabel>
           </IonTabButton>
           <IonTabButton tab="profile" href="/profile">
-            <User size={24} />
+            <User size={20} />
             <IonLabel>Profile</IonLabel>
           </IonTabButton>
         </IonTabBar>
