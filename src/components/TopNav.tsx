@@ -2,21 +2,21 @@ import { IonButton, IonIcon, IonImg, IonText } from "@ionic/react";
 import React from "react";
 import Logo from '../../public/favicon.png'
 import { notifications, person } from "ionicons/icons";
+import { BellIcon, LeafIcon, LifeBuoy } from "lucide-react";
 
 const TopNav: React.FC = () => {
     return ( 
-        <div className="flex justify-between items-center px-2 md:px-8 lg:px-18" style={{
+        <div className="flex justify-between items-center pl-2 my-2 md:px-8 lg:px-18" style={{
             background: 'var(--ion-color-light)'
         }}>
             <div className=" flex items-center gap-4">
-                <IonImg src={Logo} />
+                <LeafIcon size={28} className="text-amber-500" />
                 <IonText className="text-lg" color="primary">HortiConnect</IonText>
             </div>
             <div className="flex justify-end items-center">
-                
                     <div className="flex gap-2">
-                        <IonButton size="large" fill="clear" shape="round">
-                            <IonIcon icon={notifications} slot="icon-only" size="medium" />
+                        <IonButton fill="clear" shape="round">
+                            <BellIcon size={22} />
                         </IonButton>
                     </div>
             </div>

@@ -95,10 +95,6 @@ const App: React.FC = () => {
             
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="dashboard" href="/dashboard">
-            <LayoutDashboard size={20} />
-            <IonLabel>Dashboard</IonLabel>
-          </IonTabButton>
           <IonTabButton tab="tab5" href="/tab1">
             <ShoppingCart size={20} />
             <IonLabel>Marketplace</IonLabel>
