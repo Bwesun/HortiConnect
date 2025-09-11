@@ -2,7 +2,7 @@ import { IonButton, IonIcon, IonImg, IonText } from "@ionic/react";
 import React from "react";
 import Logo from '../../public/favicon.png'
 import { notifications, person } from "ionicons/icons";
-import { ArrowRightLeft, BellIcon, LeafIcon, LifeBuoy } from "lucide-react";
+import { ArrowRightLeft, BellIcon, ChevronsRight, LeafIcon, LifeBuoy } from "lucide-react";
 import { InAppBrowser, DefaultWebViewOptions, ToolbarPosition, iOSViewStyle, iOSAnimation } from '@capacitor/inappbrowser';
 
 const TopNav: React.FC = () => {
@@ -52,7 +52,7 @@ const TopNav: React.FC = () => {
                             <BellIcon size={22} />
                         </IonButton>
                         <IonButton fill="clear" onClick={openWebView} shape="round">
-                            <ArrowRightLeft size={22} />
+                            <ChevronsRight size={22} />
                         </IonButton>
                     </div>
             </div>
