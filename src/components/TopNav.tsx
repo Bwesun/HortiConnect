@@ -12,9 +12,9 @@ const TopNav: React.FC = () => {
             url: "https://ssp-ledger.vercel.app/",
             options: {
                 showURL: false,
-                showToolbar: false,
+                showToolbar: true,
                 closeButtonText: 'Exit',
-                showNavigationButtons: true,
+                showNavigationButtons: false,
                 clearCache: true,
                 clearSessionCache: false,
                 mediaPlaybackRequiresUserAction: false,
