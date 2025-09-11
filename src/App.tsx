@@ -12,9 +12,6 @@ import {
 import { IonReactRouter } from '@ionic/react-router';
 import { ellipse, square, triangle } from 'ionicons/icons';
 import { HomeIcon, LayoutDashboard, Network, ShoppingCart, User } from "lucide-react";
-import Tab1 from './pages/Tab1';
-import Tab2 from './pages/Tab2';
-import Tab3 from './pages/Tab3';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -52,6 +49,7 @@ import Home from './pages/Home';
 import ClusterDirectory from './pages/ClusterDirectory';
 import ViewCluster from './pages/ViewCluster';
 import Profile from './pages/Profile';
+import MarketPlace from './pages/Marketplace';
 
 setupIonicReact();
 
@@ -81,9 +79,7 @@ const App: React.FC = () => {
           <Route exact path="/clusters" component={ClusterDirectory} />
           <Route exact path="/viewcluster/:id" component={ViewCluster} />
           <Route exact path="/profile" component={Profile} />
-          <Route path="/tab3">
-            <Tab3 />
-          </Route>
+          <Route exact path="/marketplace" component={MarketPlace} />
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>

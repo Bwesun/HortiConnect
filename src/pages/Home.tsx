@@ -70,11 +70,19 @@ const Home: React.FC = () => {
                             to foster collaboration, innovation, and inclusive market
                             development in Nigeria's horticulture sector.
                             </p>
-                            <div className="flex flex-wrap gap-3">
+                            <div className="sm:hidden flex flex-wrap gap-3">
                                 <IonButton routerLink="/clusters" shape="round" size="small" color="light" className="font-semibold sm:font-bold">
                                     <p style={{ color: "#f8921d" }}>Explore Clusters</p>
                                 </IonButton>
                                 <IonButton routerLink="/marketplace" size="small" shape="round" color="light" fill="outline" className="font-semibold sm:font-bold hover:bg-gray-50 hover:rounded-2xl ">
+                                    <span className="hover:text-amber-500">Visit Marketplace</span>
+                                </IonButton>
+                            </div>
+                            <div className="flex-wrap gap-3 sm:flex hidden">
+                                <IonButton routerLink="/clusters" shape="round" color="light" className="font-semibold sm:font-bold">
+                                    <p style={{ color: "#f8921d" }}>Explore Clusters</p>
+                                </IonButton>
+                                <IonButton routerLink="/marketplace" shape="round" color="light" fill="outline" className="font-semibold sm:font-bold hover:bg-gray-50 hover:rounded-2xl ">
                                     <span className="hover:text-amber-500">Visit Marketplace</span>
                                 </IonButton>
                             </div>

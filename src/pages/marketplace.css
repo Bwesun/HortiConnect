@@ -1,0 +1,69 @@
+.market-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.market-card:hover {
+  transform: translateY(-4px);
+}
+
+.image-wrapper {
+  height: 180px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.category {
+  background: rgba(248, 152, 42, 0.15);
+  color: #f8982a;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+.price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 12px 0;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.seller {
+  margin-bottom: 16px;
+  color: #444;
+}
+
+.contact-btn {
+  margin-top: auto;
+  border-radius: 12px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --background: #15803d;
+  --background-hover: #f8982a;
+}
