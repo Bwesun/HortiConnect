@@ -51,7 +51,7 @@ const TopNav: React.FC = () => {
                             <BellIcon size={22} />
                         </IonButton>
                         <IonButton fill="clear" onClick={openWebView} shape="round">
-                            <ChevronsRight size={22} />
+                            <ArrowRightLeft size={22} />
                         </IonButton>
                     </div>
             </div>
