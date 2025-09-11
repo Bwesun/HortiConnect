@@ -13,14 +13,14 @@ const TopNav: React.FC = () => {
             url: "https://ssp-ledger.vercel.app/",
             options: {
                 showURL: false,
-                showToolbar: false,
+                showToolbar: true,
                 closeButtonText: 'Close',
                 showNavigationButtons: true,
-                clearCache: false,
+                clearCache: true,
                 clearSessionCache: false,
                 mediaPlaybackRequiresUserAction: false,
                 leftToRight: false,
-                toolbarPosition: ToolbarPosition.TOP,
+                toolbarPosition: ToolbarPosition.BOTTOM,
                 android: {
                     hardwareBack: true,
                     allowZoom: false,
