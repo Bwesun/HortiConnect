@@ -13,8 +13,8 @@ const TopNav: React.FC = () => {
             url: "https://ssp-ledger.vercel.app/",
             options: {
                 showURL: false,
-                showToolbar: true,
-                closeButtonText: 'Close',
+                showToolbar: false,
+                closeButtonText: 'Exit',
                 showNavigationButtons: true,
                 clearCache: true,
                 clearSessionCache: false,
@@ -44,10 +44,10 @@ const TopNav: React.FC = () => {
         }}>
             <div className=" flex items-center gap-4">
                 <LeafIcon size={28} className="text-amber-500" />
-                <IonText className="text-lg" color="primary">HortiConnect</IonText>
+                <IonText className="text-lg font-semibold" color="primary">HortiConnect</IonText>
             </div>
             <div className="flex justify-end items-center">
-                    <div className="flex gap-2">
+                    <div className="flex">
                         <IonButton fill="clear" shape="round">
                             <BellIcon size={22} />
                         </IonButton>
