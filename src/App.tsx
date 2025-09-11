@@ -95,7 +95,7 @@ const App: React.FC = () => {
             
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab5" href="/tab1">
+          <IonTabButton tab="marketplace" href="/marketplace">
             <ShoppingCart size={20} />
             <IonLabel>Marketplace</IonLabel>
           </IonTabButton>
