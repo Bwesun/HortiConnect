@@ -50,6 +50,7 @@ import ClusterDirectory from './pages/ClusterDirectory';
 import ViewCluster from './pages/ViewCluster';
 import Profile from './pages/Profile';
 import MarketPlace from './pages/Marketplace';
+import ContactSeller from './pages/ContactSeller';
 
 setupIonicReact();
 
@@ -80,6 +81,7 @@ const App: React.FC = () => {
           <Route exact path="/viewcluster/:id" component={ViewCluster} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/marketplace" component={MarketPlace} />
+          <Route exact path="/contactseller/:id" component={ContactSeller} />
           <Route exact path="/">
             <Redirect to="/home" />
           </Route>

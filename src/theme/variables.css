@@ -104,10 +104,10 @@ ion-item, ion-card, ion-list{
     color: var(--ion-color-medium);
 }
 
-ion-input, ion-textarea, ion-select{
+ion-input, ion-textarea, ion-select, ion-searchbar{
 	background: var(--ion-color-light) ; 
 	color: var(--ion-color-medium) !important;
-	border-radius: 5rem;
+	/* border-radius: 5rem; */
 	padding-left: .5rem;
 	border-bottom: 1px solid rgba(0,0,0, 0.1);
 }

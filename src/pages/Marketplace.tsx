@@ -26,6 +26,7 @@ import {
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import { ShoppingBag, Tag, Truck } from "lucide-react";
+import TopNav from "../components/TopNav";
 // import './marketplace.css';
 
 const Marketplace: React.FC = () => {
@@ -120,70 +121,70 @@ const Marketplace: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Marketplace</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-
-      <IonContent className="">
+      <IonContent className="" fullscreen>
+        <TopNav />
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Marketplace</h2>
         {/* Tabs */}
-        <IonSegment
+        <IonSegment color={"primary"}
           value={activeTab}
           onIonChange={(e) => setActiveTab(e.detail.value as string)}
         >
           <IonSegmentButton value="buy">
-            <ShoppingBag size={18} />
-            <IonLabel>Buy Products & Services</IonLabel>
+            <ShoppingBag size={18} className="text-amber-700" />
+            <IonLabel color={"primary"}>Buy Products & Services</IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="sell">
-            <Tag size={18} />
-            <IonLabel>Sell Requests</IonLabel>
+            <Tag size={18} className="text-amber-700" />
+            <IonLabel color="primary">Sell Requests</IonLabel>
           </IonSegmentButton>
         </IonSegment>
 
-        {/* Filters */}
-        <IonSearchbar
-          placeholder="Search marketplace"
-          value={searchTerm}
-          onIonInput={(e) => setSearchTerm(e.detail.value!)}
-        />
+        <div className="flex items-end mb-2 sm:mb-4 justify-center p-2">
+          {/* Filters */}
+          <IonSearchbar
+          className="sm:flex-1"
+            placeholder="Search marketplace"
+            color={"light"}
+            mode="ios"
+            value={searchTerm}
+            onIonInput={(e) => setSearchTerm(e.detail.value!)}
+          />
 
-        <IonSelect
+          <IonSelect className="flex-3 sm:flex-1 ml-2 sm:ml-4"
             color={"primary"}
-          value={categoryFilter}
-          placeholder="Filter by Category"
-          onIonChange={(e) => setCategoryFilter(e.detail.value)}
-        >
-          <IonSelectOption value="all">All Categories</IonSelectOption>
-          <IonSelectOption value="Produce">Produce</IonSelectOption>
-          <IonSelectOption value="Inputs">Inputs</IonSelectOption>
-          <IonSelectOption value="Services">Services</IonSelectOption>
-        </IonSelect>
+            value={categoryFilter}
+            placeholder="Filter by Category"
+            onIonChange={(e) => setCategoryFilter(e.detail.value)}
+          >
+            <IonSelectOption value="all">All Categories</IonSelectOption>
+            <IonSelectOption value="Produce">Produce</IonSelectOption>
+            <IonSelectOption value="Inputs">Inputs</IonSelectOption>
+            <IonSelectOption value="Services">Services</IonSelectOption>
+          </IonSelect>
+          
+        </div>
 
         {/* Listings */}
         {filteredListings.length > 0 ? (
             <IonGrid>
                 <IonRow className="">
-                    <div className="flex flex-wrap gap-2 mt-4">
+                    <div className="grid grid-cols-1 w-full md:grid-cols-2 lg:grid-cols-3 gap-1 mt-4">
                     {filteredListings.map((listing) => (
-                        <IonItem className="w-full" lines="none" key={listing.id}>
-                            <div className="flex flex-wrap w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-42 sm:h-48 rounded-2xl shadow-md transition-transform duration-200 hover:-translate-y-1 bg-white mb-3 overflow-hidden">
-                            {/* Image */}
-                            <div className="w-44 h-full sm:w-48 sm:h-48">
-                                <img
-                                src={listing.image}
-                                alt={listing.title}
-                                className="w-full h-full object-cover"
-                                />
-                            </div>
+                        <IonItem className="w-full" lines="none" routerLink="/contactseller/2" key={listing.id}>
+                            <div className="flex flex-wra w-full h-42 md:h-44 lg:h-48  rounded-2xl shadow-md transition-transform duration-200 hover:-translate-y-1 bg-white mb-3 overflow-hidden">
+                              {/* Image */}
+                              <div className="w-38 h-full md:w-40 md:h-48">
+                                  <img
+                                  src={listing.image}
+                                  alt={listing.title}
+                                  className="w-full h-full object-cover"
+                                  />
+                              </div>
 
                             {/* Content */}
                             <div className="flex flex-col flex-1 p-2 sm:p-4">
-                                <h2 className="sm:flex hidden">
-                                    <span className="text-sm font-semibold text-gray-900"> {listing.title}</span>
-                                </h2>
-                                <span className="sm:hidden block text-sm font-semibold text-gray-900"> {listing.title}</span>
+                                {/* <span className="sm:flex hidden text-sm font-semibold text-gray-900"> {listing.title}</span> */}
+                                <span className="text-sm font-semibold text-gray-900"> {listing.title}</span>
                                 <span className="inline-block bg-amber-100 text-amber-700 text-xs font-medium px-2 py-1 rounded mt-1">
                                 {listing.category}
                                 </span>
@@ -203,7 +204,7 @@ const Marketplace: React.FC = () => {
                                     Censono Tech Ltd
                                 </span>
                                 </p>
-                                <IonButton>Contact Seller</IonButton>
+                                <IonButton routerLink="/contactseller/1">Contact Seller</IonButton>
                             </div>
                             </div>
                         </IonItem>
