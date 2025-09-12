@@ -123,7 +123,7 @@ const Marketplace: React.FC = () => {
     <IonPage>
       <IonContent className="" fullscreen>
         <TopNav />
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Marketplace</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4 ml-2 sm:ml-4">Marketplace</h2>
         {/* Tabs */}
         <IonSegment color={"primary"}
           value={activeTab}
@@ -168,7 +168,7 @@ const Marketplace: React.FC = () => {
         {filteredListings.length > 0 ? (
             <IonGrid>
                 <IonRow className="">
-                    <div className="grid grid-cols-1 w-full md:grid-cols-2 lg:grid-cols-3 gap-1 mt-4">
+                    <div className="grid grid-cols-1 w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1 mt-4">
                     {filteredListings.map((listing) => (
                         <IonItem className="w-full" lines="none" routerLink="/contactseller/2" key={listing.id}>
                             <div className="flex flex-wra w-full h-42 md:h-44 lg:h-48  rounded-2xl shadow-md transition-transform duration-200 hover:-translate-y-1 bg-white mb-3 overflow-hidden">
