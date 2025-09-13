@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -51,11 +51,13 @@ import ViewCluster from './pages/ViewCluster';
 import Profile from './pages/Profile';
 import MarketPlace from './pages/Marketplace';
 import ContactSeller from './pages/ContactSeller';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
+import { useAuth } from './contexts/AuthContext';
 
 setupIonicReact();
 
 const App: React.FC = () => {
-
   // SET STATUS BAR
   useEffect(() => {
     const setStatusBar = async () => {
@@ -71,26 +73,44 @@ const App: React.FC = () => {
     setStatusBar();
   }, []);
 
-  return(
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/home" component={Home}/>
-          <Route exact path="/clusters" component={ClusterDirectory} />
-          <Route exact path="/viewcluster/:id" component={ViewCluster} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/marketplace" component={MarketPlace} />
-          <Route exact path="/contactseller/:id" component={ContactSeller} />
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-          <Route exact path="/dashboard" component={Dashboard} />
-        </IonRouterOutlet>
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <AppContent />
+      </IonReactRouter>
+    </IonApp>
+  );
+};
+
+const AppContent: React.FC = () => {
+  const { isAuthenticated, isLoading } = useAuth();
+  const location = useLocation();
+  const showTabBar = !['/login', '/register'].includes(location.pathname);
+
+  if (isLoading) {
+    return null; // Or a loading spinner
+  }
+
+  return (
+    <IonTabs>
+      <IonRouterOutlet>
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/register" component={RegisterPage} />
+        <PrivateRoute exact path="/home" component={Home} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path="/clusters" component={ClusterDirectory} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path="/viewcluster/:id" component={ViewCluster} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path="/marketplace" component={MarketPlace} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path="/contactseller/:id" component={ContactSeller} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} />
+        <Route exact path="/">
+          <Redirect to="/home" />
+        </Route>
+      </IonRouterOutlet>
+      {showTabBar && (
         <IonTabBar slot="bottom">
           <IonTabButton tab="home" href="/home">
             <HomeIcon size={20} />
-            
             <IonLabel>Home</IonLabel>
           </IonTabButton>
           <IonTabButton tab="marketplace" href="/marketplace">
@@ -106,9 +126,22 @@ const App: React.FC = () => {
             <IonLabel>Profile</IonLabel>
           </IonTabButton>
         </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-)};
+      )}
+    </IonTabs>
+  );
+};
+
+const PrivateRoute: React.FC<any> = ({ component: Component, isAuthenticated, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isAuthenticated ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+      )
+    }
+  />
+);
 
 export default App;
