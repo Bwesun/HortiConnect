@@ -28,7 +28,7 @@
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",
     "autoprefixer": "^10.4.21",
-    "axios": "^1.11.0",
+    "axios": "^1.12.1",
     "ionicons": "^7.4.0",
     "lucide-react": "^0.542.0",
     "postcss": "^8.5.6",

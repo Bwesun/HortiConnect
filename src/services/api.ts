@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 class ApiService {
@@ -22,30 +24,27 @@ class ApiService {
   } 
 
   // Authentication
-  async login(email: string, password: string) {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-    return this.handleResponse(response);
-  }
+ async login(email: string, password: string) {
+  const { data } = await axios.post(`${API_BASE_URL}/auth/login`, {
+    email,
+    password,
+  });
+  return data;
+}
+
 
   async register(userData: {
-    name: string;
-    email: string;
-    password: string;
-    role?: string;
-    phone?: string;
-    address?: string;
-  }) {
-    const response = await fetch(`${API_BASE_URL}/auth/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData),
-    });
-    return this.handleResponse(response);
-  }
+  name: string;
+  email: string;
+  password: string;
+  role?: string;
+  phone?: string;
+  address?: string;
+}) {
+  const data = await axios.post(`${API_BASE_URL}/auth/register`, userData);
+  return data;
+}
+
 
   async getCurrentUser() {
     const response = await fetch(`${API_BASE_URL}/auth/me`, {

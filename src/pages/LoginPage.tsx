@@ -28,6 +28,7 @@ const LoginPage: React.FC = () => {
       await login(email, password);
       history.push("/home");
     } catch (err: any) {
+      console.log(err);
       setError(err.message || "Failed to login. Please check your credentials.");
     }
   };

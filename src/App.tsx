@@ -96,7 +96,7 @@ const AppContent: React.FC = () => {
       <IonRouterOutlet>
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/register" component={RegisterPage} />
-        <PrivateRoute exact path="/home" component={Home} isAuthenticated={isAuthenticated} />
+        <Route exact path="/home" component={Home} />
         <PrivateRoute exact path="/clusters" component={ClusterDirectory} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/viewcluster/:id" component={ViewCluster} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={isAuthenticated} />
