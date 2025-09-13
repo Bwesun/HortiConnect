@@ -19,7 +19,7 @@ class ApiService {
       );
     }
     return response.json();
-  }
+  } 
 
   // Authentication
   async login(email: string, password: string) {
