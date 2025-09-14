@@ -21,10 +21,9 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: "user" | "dispatcher" | "admin";
+  role: string;
   phone?: string;
   address?: string;
-  avatar?: string;
 }
 
 interface AuthContextType {
