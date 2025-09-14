@@ -3,6 +3,8 @@ import axios, { AxiosRequestConfig } from "axios";
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 class ApiService {
+
+  //Auth Headers
   private getAuthHeaders(): AxiosRequestConfig["headers"] {
     const token = localStorage.getItem("token");
     return {
@@ -33,7 +35,7 @@ class ApiService {
       return response.data;
     } catch (error: any) {
       if (error.response) {
-      console.error("Backend error:", error.response.data); // 👈 See actual backend message
+      console.error("Backend error:", error.response.data); // See actual backend message
     } else {
       console.error("Unknown error:", error.message);
     }

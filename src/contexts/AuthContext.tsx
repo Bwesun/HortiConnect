@@ -71,6 +71,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
+        alert('no token!')
         setIsLoading(false);
         return;
       }

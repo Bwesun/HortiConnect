@@ -34,11 +34,9 @@ const RegisterPage: React.FC = () => {
     setError("");
     try {
       await register({ name, phone, role, address, email, password });
-      console.log("Registration successful");
       history.push("/home");
     } catch (err: any) {
       setError(err.message || "Failed to register. Please try again.");
-      console.log(err);
     }
   };
 
