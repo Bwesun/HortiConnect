@@ -26,6 +26,8 @@ const LoginPage: React.FC = () => {
     setError("");
     try {
       await login(email, password);
+      console.log("Login successful");
+      console.log('Token:', localStorage.getItem('token'));
       history.push("/home");
     } catch (err: any) {
       console.log(err);

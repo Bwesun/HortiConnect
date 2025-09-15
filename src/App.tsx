@@ -4,6 +4,7 @@ import {
   IonIcon,
   IonLabel,
   IonRouterOutlet,
+  IonSpinner,
   IonTabBar,
   IonTabButton,
   IonTabs,
@@ -88,7 +89,11 @@ const AppContent: React.FC = () => {
   const showTabBar = !['/login', '/register'].includes(location.pathname);
 
   if (isLoading) {
-    return null; // Or a loading spinner
+    return (
+      <div className='flex items-center justify-center h-screen'>
+        <IonSpinner name='crescent' color={'primary'} />
+      </div>
+    );
   }
 
   return (

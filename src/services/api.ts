@@ -42,12 +42,19 @@ class ApiService {
     }
   }
 
+  // Get Current user
   async getCurrentUser() {
-    const { data } = await axios.get(`${API_BASE_URL}/auth/me`, {
-      headers: this.getAuthHeaders(),
-    });
-    return data;
+  const { data } = await axios.get(`${API_BASE_URL}/auth/me`, {
+    headers: this.getAuthHeaders(),
+  });
+
+  if (!data.user) {
+    throw new Error("Invalid response: missing user field");
   }
+
+  return data; // { success, user }
+}
+
 
   async updateProfile(userData: {
     name?: string;

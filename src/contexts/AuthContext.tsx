@@ -67,24 +67,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     checkAuth();
   }, []);
 
-  const checkAuth = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        alert('no token!')
-        setIsLoading(false);
-        return;
-      }
-
-      const response = await apiService.getCurrentUser() as UserResponse;
-      setUser(response.user);
-    } catch (error) {
-      console.error("Auth check failed:", error);
-      localStorage.removeItem("token");
-    } finally {
+ const checkAuth = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
       setIsLoading(false);
+      return;
     }
-  };
+
+    // Ensure token is sent in request
+    const response = await apiService.getCurrentUser() as UserResponse;
+    
+    if (response?.user) {
+      setUser(response.user);
+    } else {
+      console.log("User not found");
+      localStorage.removeItem("token");
+    }
+  } catch (error) {
+    console.error("Auth check failed:", error);
+    localStorage.removeItem("token");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
 
   const login = async (email: string, password: string) => {
     try {
