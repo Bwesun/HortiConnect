@@ -100,14 +100,20 @@ ion-tab-bar { /* For Tabs*/
 }
 
 ion-item, ion-card, ion-list{
-    --background: var(--ion-color-light);
+    --background: var(--ion-color-light-tint);
     color: var(--ion-color-medium);
+	border-radius: 3rem;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 ion-input, ion-textarea, ion-select, ion-searchbar{
 	background: var(--ion-color-light) ; 
 	color: var(--ion-color-medium) !important;
-	/* border-radius: 5rem; */
 	padding-left: .5rem;
-	border-bottom: 1px solid rgba(0,0,0, 0.1);
+	/* border-bottom: 1px solid rgba(0,0,0, 0.1); */
+}
+
+.bg-gradient-to-r {
+  background: linear-gradient(to right, var(--ion-color-primary), var(--ion-color-secondary));
+  color: var(--ion-color-light);
 }

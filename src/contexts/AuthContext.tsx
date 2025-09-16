@@ -6,6 +6,7 @@ import React, {
   ReactNode,
 } from "react";
 import { apiService } from "../services/api";
+import { useLocation } from "react-router-dom";
 
 interface UserResponse {
   user: User;
@@ -60,6 +61,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
 
   const isAuthenticated = !!user;
 
@@ -80,6 +82,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     
     if (response?.user) {
       setUser(response.user);
+      // console.log("User authenticated", response.user);
     } else {
       console.log("User not found");
       localStorage.removeItem("token");
@@ -99,6 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await apiService.login(email, password) as AuthResponse;
       localStorage.setItem("token", response.token);
       setUser(response.user);
+      checkAuth();
     } catch (error) {
       throw error;
     }

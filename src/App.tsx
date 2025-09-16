@@ -52,8 +52,8 @@ import ViewCluster from './pages/ViewCluster';
 import Profile from './pages/Profile';
 import MarketPlace from './pages/Marketplace';
 import ContactSeller from './pages/ContactSeller';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/auth/LoginPage';
+import RegisterPage from './pages/auth/RegisterPage';
 import { useAuth } from './contexts/AuthContext';
 
 setupIonicReact();

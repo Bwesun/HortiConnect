@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { IonButton, IonContent, IonPage, IonModal, IonInput, IonItem, IonLabel } from '@ionic/react';
-import { BriefcaseIcon, MapPinIcon, CalendarIcon, MailIcon, PhoneIcon, UsersIcon } from 'lucide-react';
+import { BriefcaseIcon, MapPinIcon, CalendarIcon, MailIcon, PhoneIcon, UsersIcon, LogOutIcon, Edit2Icon, EditIcon } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { useHistory } from 'react-router';
 
 const Profile: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const { user, isLoading, logout } = useAuth();
+  const history = useHistory();
 
   // Example state for form fields (expand as needed)
   const [name, setName] = useState('Matur Innocent');
@@ -13,6 +17,12 @@ const Profile: React.FC = () => {
   const handleSave = () => {
     // Save logic here
     setShowModal(false);
+  };
+
+  // Logout logic here
+  const handleLogout = async () => {
+    const loggedOutUser = await logout();
+    history.push('/home');
   };
 
   return (
@@ -30,10 +40,10 @@ const Profile: React.FC = () => {
                 />
               </div>
               <div className="text-center sm:text-left">
-                <h1 className="text-xl sm:text-2xl font-bold">{name}</h1>
+                <h1 className="text-xl sm:text-2xl font-bold">{user?.name}</h1>
                 <p className="text-white text-opacity-90 flex items-center justify-center sm:justify-start sm:mt-1 text-xs sm:text-base">
                   <BriefcaseIcon size={16} className="mr-1" />
-                  Farmer
+                  {user?.role}
                 </p>
                 <p className="text-white text-opacity-90 flex items-center justify-center sm:justify-start sm:mt-1 text-xs sm:text-base">
                   <MapPinIcon size={16} className="mr-1" />
@@ -50,8 +60,9 @@ const Profile: React.FC = () => {
           {/* Profile Card */}
           <div className="bg-white rounded-b-lg shadow-md overflow-hidden">
             <div className="p-4 sm:p-6">
-              <div className='flex justify-end'>
-                <IonButton color="primary" fill='clear' onClick={() => setShowModal(true)} className="text-sm sm:text-base">Edit Profile</IonButton>
+              <div className='flex justify-between'>
+                <IonButton color="primary" fill='outline' onClick={() => setShowModal(true)} className="text-sm sm:text-base"><EditIcon size={18} className="mr-1" /> Edit Profile</IonButton>
+                <IonButton color="danger" fill='outline' onClick={handleLogout} className="text-sm sm:text-base"><LogOutIcon size={18} className="mr-1" /> Logout</IonButton>
               </div>
 
               {/* About Section */}

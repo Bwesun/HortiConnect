@@ -51,7 +51,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
               <Link to="/profile" className="flex items-center">
                 {user ? (
                   <img
-                    src={user.avatar}
+                    src={user.name}
                     alt={user.name}
                     className="w-8 h-8 rounded-full object-cover"
                   />
