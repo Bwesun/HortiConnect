@@ -6,6 +6,7 @@ import {
   IonInput,
   IonItem,
   IonPage,
+  IonToast,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
@@ -18,27 +19,23 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { login, isAuthenticated } = useAuth();
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const { login, isAuthenticated, user } = useAuth();
   const history = useHistory();
-
-  useEffect(() => {
-  if (isAuthenticated) {
-    console.log("User is authenticated");
-    history.replace("/home");
-  }
-}, [isAuthenticated, history]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true)
     try {
-      const loggedInUser = await login(email, password);
-      console.log("Login successful:", loggedInUser);
-      console.log('Token:', localStorage.getItem('token'));
+      const response = await login(email, password);
       history.replace("/home");
     } catch (err: any) {
-      console.log(err);
-      setError(err.message || "Failed to login. Please check your credentials.");
+      // console.log(err);
+      setToastMessage(err.message || "Failed to login. Please check your credentials.");
+      setShowToast(true);
+      // setError(err.message || "Failed to login. Please check your credentials.");
     }
   };
 
@@ -101,6 +98,13 @@ const LoginPage: React.FC = () => {
         </Link>
       </p>
     </div>
+    <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message={toastMessage}
+          duration={3000}
+          color="danger"
+        />
       </IonContent>
     </IonPage>
   );

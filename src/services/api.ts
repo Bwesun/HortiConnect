@@ -13,13 +13,27 @@ class ApiService {
     };
   }
 
+  private async handleResponse<T>(response: Response): Promise<T> {
+    if (!response.ok) {
+      const errorData = await response
+        .json()
+        .catch(() => ({ error: "Network error" }));
+      throw new Error(
+        errorData.error || `HTTP error! status: ${response.status}`,
+      );
+    }
+    return response.json();
+  }
+
   // Authentication
   async login(email: string, password: string) {
-    const { data } = await axios.post(`${API_BASE_URL}/auth/login`, {
-      email,
-      password,
+    const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify({email, password}),
     });
-    return data;
+    
+    return this.handleResponse(response);
   }
 
   async register(userData: {

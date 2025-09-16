@@ -31,7 +31,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<User>;
   register: (userData: {
     name: string;
     email: string;
@@ -80,13 +80,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Ensure token is sent in request
     const response = await apiService.getCurrentUser() as UserResponse;
     
-    if (response?.user) {
       setUser(response.user);
-      // console.log("User authenticated", response.user);
-    } else {
-      console.log("User not found");
-      localStorage.removeItem("token");
-    }
+      console.log("User authenticated", response.user);
+    
   } catch (error) {
     console.error("Auth check failed:", error);
     localStorage.removeItem("token");
@@ -102,7 +98,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await apiService.login(email, password) as AuthResponse;
       localStorage.setItem("token", response.token);
       setUser(response.user);
-      checkAuth();
+      return response.user
     } catch (error) {
       throw error;
     }
