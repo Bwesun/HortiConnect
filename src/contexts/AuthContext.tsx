@@ -61,7 +61,6 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const location = useLocation();
 
   const isAuthenticated = !!user;
 
@@ -80,9 +79,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     // Ensure token is sent in request
     const response = await apiService.getCurrentUser() as UserResponse;
     
-      setUser(response.user);
-      console.log("User authenticated", response.user);
-    
+      setUser(response.user);    
   } catch (error) {
     console.error("Auth check failed:", error);
     localStorage.removeItem("token");
@@ -121,7 +118,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async() => {
     localStorage.removeItem("token");
     setUser(null);
   };

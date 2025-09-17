@@ -27,13 +27,11 @@ class ApiService {
 
   // Authentication
   async login(email: string, password: string) {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json"},
-      body: JSON.stringify({email, password}),
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, {
+      email,
+      password,
     });
-    
-    return this.handleResponse(response);
+    return response.data;
   }
 
   async register(userData: {

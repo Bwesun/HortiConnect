@@ -18,16 +18,24 @@ const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const { login, isAuthenticated, user } = useAuth();
+  const { login, isAuthenticated, isLoading } = useAuth();
   const history = useHistory();
+
+  useEffect(() => {
+  if (!isLoading && isAuthenticated) {
+    history.replace("/home");
+  }
+}, [isLoading, isAuthenticated]);
+
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setIsLoading(true)
+    setLoading(true)
     try {
       const response = await login(email, password);
       history.replace("/home");
@@ -45,7 +53,7 @@ const LoginPage: React.FC = () => {
         <div className="max-w-2xl mx-auto sm:my-10 p-6  bg-white h-full sm:h-auto shadow">
           <IonImg src={LogoImage} alt="HortiConnect Logo" className="mx-auto h-44" />
       <h1 className="text-2xl font-bold text-center text-green-800 mb-6">
-        Create HortiConnect Account
+        Login to HortiConnect
       </h1>
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 flex items-center">
@@ -86,9 +94,9 @@ const LoginPage: React.FC = () => {
           type="submit"
           fill="clear"
           className="bg-gradient-to-r"
-          disabled={isLoading}
+          disabled={loading}
         >
-          {isLoading ? 'Creating Account...' : 'Create Account'}
+          {loading ? 'Logging in...' : 'Login'}
         </IonButton>
       </form>
       <p className="mt-6 text-center text-gray-600">

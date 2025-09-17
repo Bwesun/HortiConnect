@@ -99,11 +99,15 @@ ion-tab-bar { /* For Tabs*/
   --color-selected: var(--ion-color-secondary);
 }
 
-ion-item, ion-card, ion-list{
+ion-card, ion-list{
     --background: var(--ion-color-light-tint);
     color: var(--ion-color-medium);
-	border-radius: 3rem;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+ion-item{
+    --background: var(--ion-color-light);
+	border-radius: 3rem;
 }
 
 ion-input, ion-textarea, ion-select, ion-searchbar{

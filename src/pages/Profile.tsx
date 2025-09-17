@@ -21,8 +21,8 @@ const Profile: React.FC = () => {
 
   // Logout logic here
   const handleLogout = async () => {
-    logout();
-    history.push('/login');
+    await logout();
+    history.replace('/login');
   };
 
   return (

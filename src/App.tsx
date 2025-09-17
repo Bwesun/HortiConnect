@@ -59,6 +59,7 @@ import { useAuth } from './contexts/AuthContext';
 setupIonicReact();
 
 const App: React.FC = () => {
+  const { isLoading } = useAuth();
   // SET STATUS BAR
   useEffect(() => {
     const setStatusBar = async () => {
@@ -74,6 +75,14 @@ const App: React.FC = () => {
     setStatusBar();
   }, []);
 
+  if (isLoading) {
+    return (
+      <div className='flex items-center justify-center h-screen bg-amber-100'>
+        <IonSpinner name='crescent' color={'primary'} />
+      </div>
+    );
+  }
+
   return (
     <IonApp>
       <IonReactRouter>
@@ -84,17 +93,9 @@ const App: React.FC = () => {
 };
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const location = useLocation();
   const showTabBar = !['/login', '/register'].includes(location.pathname);
-
-  if (isLoading) {
-    return (
-      <div className='flex items-center justify-center h-screen bg-amber-100'>
-        <IonSpinner name='crescent' color={'primary'} />
-      </div>
-    );
-  }
 
   return (
     <IonTabs>
@@ -136,14 +137,25 @@ const AppContent: React.FC = () => {
   );
 };
 
-const PrivateRoute: React.FC<any> = ({ component: Component, isAuthenticated, ...rest }) => (
+interface PrivateRouteProps {
+  component: React.FC<any>;
+  isAuthenticated: boolean;
+  path: string;
+  exact?: boolean;
+}
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({
+  component: Component,
+  isAuthenticated,
+  ...rest
+}) => (
   <Route
     {...rest}
     render={(props) =>
       isAuthenticated ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+        <Redirect to="/login" />
       )
     }
   />
