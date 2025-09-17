@@ -10,9 +10,22 @@ const Profile: React.FC = () => {
   const history = useHistory();
 
   // Example state for form fields (expand as needed)
-  const [name, setName] = useState('Matur Innocent');
-  const [email, setEmail] = useState('adamu.ibrahim@example.com');
-  const [phone, setPhone] = useState('+234 812 345 6789');
+  const [name, setName] = useState('Guest User');
+  const [email, setEmail] = useState('guest@mail.com');
+  const [phone, setPhone] = useState('+234 xxx xxx xxxx');
+
+  function formatDate(dateString?: string): string {
+  if (!dateString) return "Unknown date";
+
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+
 
   const handleSave = () => {
     // Save logic here
@@ -47,11 +60,11 @@ const Profile: React.FC = () => {
                 </p>
                 <p className="text-white text-opacity-90 flex items-center justify-center sm:justify-start sm:mt-1 text-xs sm:text-base">
                   <MapPinIcon size={16} className="mr-1" />
-                  Abuja
+                  {user?.address}
                 </p>
                 <p className="text-white text-opacity-90 flex items-center justify-center sm:justify-start sm:mt-1 text-xs sm:text-base">
                   <CalendarIcon size={16} className="mr-1" />
-                  Joined 20 January 2025
+                  Joined {formatDate(user?.created_at)}
                 </p>
               </div>
             </div>
@@ -74,8 +87,8 @@ const Profile: React.FC = () => {
               {/* Contact Info */}
               <h3><span className="text-base sm:text-lg font-semibold text-gray-800 mb-2">Contact Information</span> </h3>
               <ul className="text-gray-700 space-y-2 mb-6 text-sm sm:text-base">
-                <li className='flex gap-2 items-center'><MailIcon size={18} className="mr-1 text-amber-600" /> {email}</li>
-                <li className='flex gap-2 items-center'><PhoneIcon size={18} className="mr-1 text-amber-600" />Phone: {phone}</li>
+                <li className='flex gap-2 items-center'><MailIcon size={18} className="mr-1 text-amber-600" /> {user?.email}</li>
+                <li className='flex gap-2 items-center'><PhoneIcon size={18} className="mr-1 text-amber-600" />Phone: {user?.phone}</li>
               </ul>
 
               {/* Cluster Affiliations */}
@@ -91,7 +104,7 @@ const Profile: React.FC = () => {
         {/* Edit Profile Modal */}
         <IonModal color='light' isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
             <IonContent color={"light"}>
-                <div className="p-2 sm:p-4">
+                <div className="p-2 sm:p-4 bg-gray-50">
                     <h2 className="text-xl text-green-700 font-bold mb-4">Edit Profile</h2>
                     <IonItem>
                     <IonLabel position="stacked">Name</IonLabel>

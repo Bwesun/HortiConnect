@@ -2,6 +2,7 @@ import { Redirect, Route, useLocation } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
+  IonImg,
   IonLabel,
   IonRouterOutlet,
   IonSpinner,
@@ -55,6 +56,8 @@ import ContactSeller from './pages/ContactSeller';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import { useAuth } from './contexts/AuthContext';
+import LogoImage from "./assets/hortiLogo.png";
+
 
 setupIonicReact();
 
@@ -77,7 +80,8 @@ const App: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className='flex items-center justify-center h-screen bg-amber-100'>
+      <div className='flex items-center flex-col justify-center h-screen bg-white gap-4'>
+        <IonImg src={LogoImage} alt='HortiNg Logo' className="mx-auto h-32" />
         <IonSpinner name='crescent' color={'primary'} />
       </div>
     );
