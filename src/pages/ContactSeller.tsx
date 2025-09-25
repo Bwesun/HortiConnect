@@ -8,6 +8,7 @@ import {
   MessageSquareIcon,
   SendIcon,
   CheckCircleIcon,
+  User,
 } from 'lucide-react'
 import {
   IonPage,
@@ -143,12 +144,8 @@ const ContactSeller: React.FC = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar className='ion-padding-start' color="primary">
-          <IonTitle>Contact {contactData.type === 'seller' ? 'Seller' : 'Buyer'}</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className="ion-padding bg-gray-100">
+      <IonContent fullscreen className="ion-padding bg-gray-100">
+        <IonTitle color={'primary'}>Contact {contactData.type === 'seller' ? 'Seller' : 'Buyer'}</IonTitle>
         <div className="max-w-5xl mx-auto">
           <Link to="/marketplace" className="inline-flex items-center text-[#f8982a] mb-4">
             <ChevronLeftIcon size={20} className="mr-1" />
@@ -156,133 +153,18 @@ const ContactSeller: React.FC = () => {
           </Link>
           <IonGrid>
             <IonRow>
-              <IonCol size="12" sizeLg="8">
-                <IonCard className="mb-6">
-                  <IonCardHeader>
-                    <IonCardTitle>
-                      Contact {contactData.type === 'seller' ? 'Seller' : 'Buyer'}
-                    </IonCardTitle>
-                  </IonCardHeader>
-                  <IonCardContent>
-                    {isSubmitted ? (
-                      <div className="flex flex-col items-center py-8">
-                        <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mb-4">
-                          <CheckCircleIcon size={40} className="text-green-600" />
-                        </div>
-                        <h2 className="text-xl font-semibold text-gray-800 mb-2">
-                          Message Sent Successfully!
-                        </h2>
-                        <p className="text-gray-600 mb-6 text-center">
-                          Your message has been sent to {contactData.name}. They will
-                          get back to you soon.
-                        </p>
-                        <div className="flex gap-4">
-                          <Link to="/marketplace">
-                            <IonButton color="medium" fill="outline">
-                              Back to Marketplace
-                            </IonButton>
-                          </Link>
-                          <IonButton
-                            color="secondary"
-                            onClick={() => setIsSubmitted(false)}
-                          >
-                            Send Another Message
-                          </IonButton>
-                        </div>
-                      </div>
-                    ) : (
-                      <form onSubmit={handleSubmit}>
-                        {listing && (
-                          <IonCard className="mb-4 bg-gray-50">
-                            <IonCardContent className="flex items-center">
-                              <IonAvatar slot="start" className="mr-3">
-                                <img src={listing.image} alt={listing.title} />
-                              </IonAvatar>
-                              <div>
-                                <p className="font-medium">{listing.title}</p>
-                                <p className="text-gray-600">{listing.price}</p>
-                              </div>
-                            </IonCardContent>
-                          </IonCard>
-                        )}
-                        <IonItem className="mb-2" lines="none">
-                          <IonLabel position="stacked">Your Name</IonLabel>
-                          <IonInput
-                            name="name"
-                            value={formData.name}
-                            onIonChange={e => handleChange(e as any)}
-                            placeholder="Enter your full name"
-                            className={errors.name ? 'ion-invalid ion-touched' : ''}
-                          />
-                        </IonItem>
-                        {errors.name && (
-                          <div className="text-red-500 text-xs mb-2 ml-2">{errors.name}</div>
-                        )}
-                        <IonItem className="mb-2" lines="none">
-                          <IonLabel position="stacked">Email Address</IonLabel>
-                          <IonInput
-                            name="email"
-                            type="email"
-                            value={formData.email}
-                            onIonChange={e => handleChange(e as any)}
-                            placeholder="Enter your email address"
-                            className={errors.email ? 'ion-invalid ion-touched' : ''}
-                          />
-                        </IonItem>
-                        {errors.email && (
-                          <div className="text-red-500 text-xs mb-2 ml-2">{errors.email}</div>
-                        )}
-                        <IonItem className="mb-2" lines="none">
-                          <IonLabel position="stacked">Phone Number</IonLabel>
-                          <IonInput
-                            name="phone"
-                            type="tel"
-                            value={formData.phone}
-                            onIonChange={e => handleChange(e as any)}
-                            placeholder="Enter your phone number"
-                            className={errors.phone ? 'ion-invalid ion-touched' : ''}
-                          />
-                        </IonItem>
-                        {errors.phone && (
-                          <div className="text-red-500 text-xs mb-2 ml-2">{errors.phone}</div>
-                        )}
-                        <IonItem className="mb-2" lines="none">
-                          <IonLabel position="stacked">Your Message</IonLabel>
-                          <IonTextarea
-                            name="message"
-                            value={formData.message}
-                            onIonChange={e => handleChange(e as any)}
-                            placeholder={`Write your message to ${contactData.name}...`}
-                            rows={6}
-                            className={errors.message ? 'ion-invalid ion-touched' : ''}
-                          />
-                        </IonItem>
-                        {errors.message && (
-                          <div className="text-red-500 text-xs mb-2 ml-2">{errors.message}</div>
-                        )}
-                        <div className="flex justify-end mt-4">
-                          <IonButton type="submit" color="primary">
-                            Send Message
-                            <SendIcon size={18} className="ml-2" />
-                          </IonButton>
-                        </div>
-                      </form>
-                    )}
-                  </IonCardContent>
-                </IonCard>
-              </IonCol>
-              <IonCol size="12" sizeLg="4">
+              <IonCol size="12" >
                 <IonCard>
                   <IonCardContent>
                     <div className="flex items-center mb-4">
                       <IonAvatar className="mr-3">
-                        <img src={contactData.image} alt={contactData.name} />
+                        <User size={48} className="text-amber-600" />
                       </IonAvatar>
                       <div>
                         <h2 className="text-lg font-semibold text-gray-800">
                           {contactData.name}
                         </h2>
-                        <p className="text-[#f8982a] capitalize">
+                        <p className="text-[#2da309] capitalize">
                           {contactData.type}
                         </p>
                       </div>

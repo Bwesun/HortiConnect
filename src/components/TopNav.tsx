@@ -9,7 +9,7 @@ const TopNav: React.FC = () => {
     // To customize webview, u must specify all the attributes
     const openWebView = async () => {
         await InAppBrowser.openInWebView({
-            url: "https://https://sspledger.com.ng/",
+            url: "https://sspledger.com.ng/",
             options: {
                 showURL: false,
                 showToolbar: true,

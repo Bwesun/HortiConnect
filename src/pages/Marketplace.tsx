@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonSegment,
   IonSegmentButton,
@@ -13,111 +10,204 @@ import {
   IonSelectOption,
   IonGrid,
   IonRow,
-  IonCol,
   IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
   IonCardContent,
   IonButton,
-  IonImg,
-  IonText,
   IonItem,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonModal,
+  IonInput,
+  IonTextarea,
+  IonText,
+  IonToast,
 } from "@ionic/react";
 import { Link } from "react-router-dom";
-import { ShoppingBag, Tag, Truck } from "lucide-react";
+import { ChevronLeftIcon, ChevronRightIcon, ShoppingBag, Tag, Truck } from "lucide-react";
 import TopNav from "../components/TopNav";
+import { add } from "ionicons/icons";
+import { useAuth } from "../contexts/AuthContext";
 // import './marketplace.css';
+
+type Listing = {
+  id: number;
+  title: string;
+  category: string;
+  price: string;
+  location: string;
+  image: string;
+  type?: 'buy' | 'sell';
+  buyer?: string;
+  buyerId?: string;
+  seller?: string;
+  sellerId?: string;
+  contact?: string;
+  description?: string;
+};
+
+const API_URL = import.meta.env.VITE_API_URL;
+const LIMIT = 5;
+
 
 const Marketplace: React.FC = () => {
   const [activeTab, setActiveTab] = useState("buy");
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
+  const { user } = useAuth();
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  // Mock data for marketplace listings
-  const listings = {
-    buy: [
-      {
-        id: 1,
-        title: "Premium Tomatoes",
-        category: "Produce",
-        price: "₦5,000 per crate",
-        location: "Kano",
-        seller: "Ibrahim Farms",
-        sellerId: "ibrahim-farms",
-        image:
-          "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      },
-      {
-        id: 2,
-        title: "Organic Peppers",
-        category: "Produce",
-        price: "₦3,500 per bag",
-        location: "Kaduna",
-        seller: "Green Valley Farms",
-        sellerId: "green-valley",
-        image:
-          "https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      },
-      {
-        id: 3,
-        title: "NPK Fertilizer",
-        category: "Inputs",
-        price: "₦15,000 per 50kg",
-        location: "Kano",
-        seller: "AgriSupplies Ltd",
-        sellerId: "agri-supplies",
-        image:
-          "https://images.unsplash.com/photo-1615640325997-31b4aac21778?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      },
-      {
-        id: 4,
-        title: "Tractor Services",
-        category: "Services",
-        price: "₦25,000 per hectare",
-        location: "Kaduna",
-        seller: "Modern Agric Services",
-        sellerId: "modern-agric",
-        image:
-          "https://images.unsplash.com/photo-1588751049611-ef43ff18dc15?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      },
-    ],
-    sell: [
-      {
-        id: 5,
-        title: "Looking for Quality Onions",
-        category: "Produce",
-        price: "₦4,000 per bag",
-        location: "Kano",
-        buyer: "Northern Processors Ltd",
-        buyerId: "northern-processors",
-        image:
-          "https://images.unsplash.com/photo-1618512496248-a4e1f96a5e00?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      },
-      {
-        id: 6,
-        title: "Seeking Fresh Vegetables",
-        category: "Produce",
-        price: "Negotiable",
-        location: "Kaduna",
-        buyer: "Fresh Foods Market",
-        buyerId: "fresh-foods",
-        image:
-          "https://images.unsplash.com/photo-1557844352-761f2565b576?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
-      },
-    ],
-  };
+  // modal + create listing state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form, setForm] = useState({
+    title: "",
+    category: "Produce",
+    price: "",
+    location: "",
+    image: "",
+    contact: "",
+    description: "",
+    type: "sell", // <-- added: choose buy or sell
+  });
 
-  const filteredListings = listings[activeTab === "buy" ? "buy" : "sell"].filter(
-    (listing) => {
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+
+  // fetch listings from backend on mount / when filters change / page changes
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        const params = new URLSearchParams();
+        params.set("page", String(page));
+        params.set("limit", String(LIMIT));
+        if (searchTerm) params.set("q", searchTerm);
+        if (categoryFilter && categoryFilter !== "all") params.set("category", categoryFilter);
+        // send the listing type so backend can filter by 'buy' or 'sell'
+        params.set("type", activeTab);
+
+        const res = await fetch(`${API_URL}/listings?${params.toString()}`, {
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+        });
+        if (!res.ok) throw new Error(`Failed to load listings (${res.status})`);
+        const payload = await res.json();
+        const rows = Array.isArray(payload?.data) ? payload.data : [];
+        const total = Number(payload?.total ?? rows.length);
+        setListings(rows);
+        setTotalPages(Math.max(1, Math.ceil(total / LIMIT)));
+      } catch (err: any) {
+        console.error("Fetch listings error:", err);
+      }
+    };
+    fetchListings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, searchTerm, categoryFilter, activeTab]);
+
+  // when user changes search/category/tab, reset to first page
+  useEffect(() => setPage(1), [searchTerm, categoryFilter, activeTab]);
+
+  // filter listings based on active tab, search term, and category
+  const filteredListings = listings
+    .filter((l) => (l.type ?? 'sell') === activeTab) // filter by buy/sell type selected in tabs
+    .filter((listing) => {
       const matchesSearch =
         listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         listing.location.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory =
         categoryFilter === "all" || listing.category === categoryFilter;
       return matchesSearch && matchesCategory;
+    });
+
+  const handleFormChange = (key: keyof typeof form, value: any) => {
+    setForm((s) => ({ ...s, [key]: value }));
+  };
+
+  // send listing to backend and add to local state on success
+  const handleCreateListing = async () => {
+    setErrorMsg(null);
+    setSuccessMsg(null);
+    if (!form.title.trim() || !form.price.trim()) {
+      setErrorMsg("Title and price are required.");
+      return;
     }
-  );
+    setIsSubmitting(true);
+    try {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      const res = await fetch(`${API_URL}/listings`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          title: form.title,
+          category: form.category,
+          price: form.price,
+          location: form.location || null,
+          image: form.image || null,
+          contact: form.contact || null,
+          description: form.description || null,
+          type: form.type, // send type to backend
+          seller_name: form.type === 'sell' ? (user?.name ?? "You") : null,
+          buyer_name: form.type === 'buy' ? (user?.name ?? "You") : null,
+        }),
+      });
+
+      if (!res.ok) {
+        const text = await res.text().catch(() => null);
+        throw new Error(text || `Failed to create listing (${res.status})`);
+      }
+
+      const payload = await res.json();
+      const created: Listing = payload?.data ?? payload?.listing ?? payload;
+
+      // ensure minimal normalization
+      const normalized: Listing = {
+        id: created.id ?? Date.now(),
+        title: created.title ?? form.title,
+        category: created.category ?? form.category,
+        price: created.price ?? form.price,
+        location: created.location ?? form.location ?? "Unknown",
+        image: created.image ?? form.image ?? "https://via.placeholder.com/400x300?text=No+Image",
+        type: (created.type as any) ?? form.type,
+        seller: (created as any).seller_name ?? (form.type === 'sell' ? user?.name ?? "You" : undefined),
+        sellerId: (created as any).seller_id ?? undefined,
+        buyer: (created as any).buyer_name ?? (form.type === 'buy' ? user?.name ?? "You" : undefined),
+        buyerId: (created as any).buyer_id ?? undefined,
+        contact: created.contact ?? form.contact ?? undefined,
+        description: created.description ?? form.description ?? undefined,
+      };
+
+      setListings((s) => [normalized, ...s]);
+      setSuccessMsg("Listing created");
+      // reset form and close modal
+      setForm({
+        title: "",
+        category: "Produce",
+        price: "",
+        location: "",
+        image: "",
+        contact: "",
+        description: "",
+        type: "sell",
+      });
+      setIsModalOpen(false);
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(err?.message ?? "Failed to create listing");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <IonPage>
@@ -216,13 +306,108 @@ const Marketplace: React.FC = () => {
         ) : (
           <IonCard>
             <IonCardContent className="ion-text-center">
-              <IonText>No listings found matching your criteria.</IonText>
+              <IonText>No listings found.</IonText>
             </IonCardContent>
           </IonCard>
         )}
+
+        {/* Pagination */}
+        <div className="flex items-center justify-center gap-3 mt-4">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page <= 1}
+            className="px-3 sm:px-6 py-1 sm:py-3 text-amber-600 rounded disabled:opacity-50"
+          >
+            <ChevronLeftIcon size={16} className="inline mr-2" />
+            Prev
+          </button>
+          <div className="text-sm text-gray-700">
+            Page {page} of {totalPages}
+          </div>
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page >= totalPages}
+            className="px-3 sm:px-6 py-1 sm:py-3 text-amber-600 rounded disabled:opacity-50"
+          >
+            Next
+            <ChevronRightIcon size={16} className="inline ml-2" />
+          </button>
+        </div>
+
+        {/* FLOATING BUTTON */}
+        <IonFab vertical="bottom" horizontal="end" slot="fixed" className="mb-2 sm:mb-8 mr-4 sm:mr-8">
+          <IonFabButton onClick={() => setIsModalOpen(true)}>
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+        </IonFab>
+
+        {/* Create Listing Modal */}
+        <IonModal isOpen={isModalOpen} onDidDismiss={() => setIsModalOpen(false)}>
+          <IonContent>
+            <div className="max-w-2xl mx-auto  p-6 rounded-md bg-white  shadow">
+              <IonText color="primary" className="text-lg font-semibold mb-3">Create Listing</IonText>
+              <IonText className="text-sm text-gray-600 mb-4 block">
+                Fill in the details below to create a new marketplace listing.
+              </IonText>
+              {errorMsg && <div className="mb-2 text-sm text-red-600">{errorMsg}</div>}
+              {successMsg && <div className="mb-2 text-sm text-green-600">{successMsg}</div>}
+              <div className="space-y-3">
+                <IonItem lines="none">
+                  <IonInput
+                    placeholder="Title"
+                    value={form.title}
+                    onIonInput={(e: any) => handleFormChange("title", e.target?.value ?? e.detail?.value)}
+                  />
+                </IonItem>
+                <IonItem lines="none">
+                  <IonSelect value={form.category} placeholder="Category" onIonChange={(e) => handleFormChange("category", e.detail.value)}>
+                    <IonSelectOption value="Produce">Produce</IonSelectOption>
+                    <IonSelectOption value="Inputs">Inputs</IonSelectOption>
+                    <IonSelectOption value="Services">Services</IonSelectOption>
+                  </IonSelect>
+                </IonItem>
+                <IonItem lines="none">
+                  <IonInput placeholder="Price (e.g. ₦5,000 per crate)" value={form.price} onIonInput={(e: any) => handleFormChange("price", e.target?.value ?? e.detail?.value)} />
+                </IonItem>
+                <IonItem lines="none">
+                  <IonInput placeholder="Location" value={form.location} onIonInput={(e: any) => handleFormChange("location", e.target?.value ?? e.detail?.value)} />
+                </IonItem>
+                <IonItem lines="none">
+                  <IonInput placeholder="Image URL" value={form.image} onIonInput={(e: any) => handleFormChange("image", e.target?.value ?? e.detail?.value)} />
+                </IonItem>
+                <IonItem lines="none">
+                  <IonInput placeholder="Contact" value={form.contact} onIonInput={(e: any) => handleFormChange("contact", e.target?.value ?? e.detail?.value)} />
+                </IonItem>
+                <IonItem lines="none">
+                  <IonTextarea placeholder="Description" value={form.description} onIonInput={(e: any) => handleFormChange("description", e.target?.value ?? e.detail?.value)} />
+                </IonItem>
+                <IonItem lines="none">
+                  <IonSelect value={form.type} placeholder="Listing Type" onIonChange={(e) => handleFormChange("type", e.detail.value)}>
+                    <IonSelectOption value="sell">Sell (I'm selling)</IonSelectOption>
+                    <IonSelectOption value="buy">Buy (I'm looking to buy)</IonSelectOption>
+                  </IonSelect>
+                </IonItem>
+              </div>
+
+              <div className="mt-4 flex justify-end gap-2">
+                <IonButton color="secondary" onClick={() => setIsModalOpen(false)} disabled={isSubmitting}>Cancel</IonButton>
+                <IonButton color="primary" onClick={handleCreateListing} disabled={isSubmitting}>
+                  {isSubmitting ? "Creating..." : "Create"}
+                </IonButton>
+              </div>
+            </div>
+          </IonContent>
+        </IonModal>
+
+        {/* TOAST */}
+        <IonToast
+          isOpen={showToast}
+          onDidDismiss={() => setShowToast(false)}
+          message={toastMessage}
+          duration={3000}
+        />
       </IonContent>
     </IonPage>
-  );
-};
-
-export default Marketplace;
+  )};
+  
+  export default Marketplace;
