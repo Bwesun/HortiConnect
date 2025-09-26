@@ -127,17 +127,17 @@ const RegisterPage: React.FC = () => {
               value={role}
               onIonChange={(e) => setRole(e.detail.value!)}
               interface="popover"
-              color="primary"
               required
+              className="selectbtn"
             >
-              <IonSelectOption value="user">Select your role</IonSelectOption>
-              <IonSelectOption value="farmer">Farmer</IonSelectOption>
-              <IonSelectOption value="agrodealer">Agrodealer</IonSelectOption>
-              <IonSelectOption value="service_provider">
+              <IonSelectOption className="selectbtn" value="user">Select your role</IonSelectOption>
+              <IonSelectOption className="selectbtn" value="farmer">Farmer</IonSelectOption>
+              <IonSelectOption className="selectbtn" value="agrodealer">Agrodealer</IonSelectOption>
+              <IonSelectOption className="selectbtn" value="service_provider">
                 Service Provider
               </IonSelectOption>
-              <IonSelectOption value="food_processor">Other</IonSelectOption>
-              <IonSelectOption value="other">Other</IonSelectOption>
+              <IonSelectOption className="selectbtn" value="food_processor">Other</IonSelectOption>
+              <IonSelectOption className="selectbtn" value="other">Other</IonSelectOption>
             </IonSelect>
           </IonItem>
           

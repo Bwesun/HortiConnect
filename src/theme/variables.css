@@ -105,16 +105,22 @@ ion-card, ion-list{
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-ion-item{
+ion-item {
     --background: var(--ion-color-light);
 	border-radius: 3rem;
 }
 
-ion-input, ion-textarea, ion-selec, ion-searchbar{
+ion-input, ion-textarea, ion-select, ion-searchbar{
 	background: var(--ion-color-light) ; 
 	color: var(--ion-color-medium) !important;
 	padding-left: .5rem;
 	/* border-bottom: 1px solid rgba(0,0,0, 0.1); */
+}
+
+.selectbtn{
+	background: var(--ion-color-light) ; 
+	color: var(--ion-color-medium) !important;
+	padding-left: .5rem;
 }
 
 .bg-gradient-to-r {

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { IonButton, IonContent, IonPage, IonSpinner, IonToast } from '@ionic/react';
-import { BriefcaseIcon, MapPinIcon, CalendarIcon, MailIcon, PhoneIcon, UsersIcon } from 'lucide-react';
-import { useParams } from 'react-router';
+import { BriefcaseIcon, MapPinIcon, CalendarIcon, MailIcon, PhoneIcon, UsersIcon, AlertCircle, AlertTriangle, CopyIcon, ClipboardIcon } from 'lucide-react';
+import { useParams } from 'react-router-dom';
+import { Clipboard } from '@capacitor/clipboard';
 
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001/api';
+const API_URL = import.meta.env.VITE_API_URL;
 
 type UserProfile = {
   id: string;
@@ -47,7 +48,6 @@ const ViewProfile: React.FC = () => {
         });
         if (!res.ok) throw new Error(`Unable to load profile (${res.status})`);
         const payload = await res.json();
-        console.log(payload);
         setFetchedUser(payload?.data ?? payload?.user ?? null);
       } catch (err: any) {
         console.error(err);
@@ -60,12 +60,28 @@ const ViewProfile: React.FC = () => {
     fetchProfile();
   }, [id]);
 
+    //   Copy Email
+  const copyEmail = async () => {
+        const action = await Clipboard.write({
+            string: fetchedUser?.email
+        });
+        setToast({ show: true, msg: "Email copied"});
+    };
+    
+    // Copy Phone
+    const copyPhone = async () => {
+        const action = await Clipboard.write({
+            string: fetchedUser?.phone
+        });
+        setToast({ show: true, msg: "Phone Number copied"});
+    };
+
   if (loadingUser) {
     return (
       <IonPage>
         <IonContent className="ion-padding">
           <div className="flex items-center justify-center h-64">
-            <IonSpinner name="crescent" />
+            <IonSpinner name="crescent" color={'primary'} />
           </div>
         </IonContent>
       </IonPage>
@@ -76,7 +92,11 @@ const ViewProfile: React.FC = () => {
     return (
       <IonPage>
         <IonContent className="ion-padding">
-          <div className="text-center text-gray-600">Profile not found.</div>
+          <div className="flex items-center text-green-700 justify-center h-64 text-center flex-col gap-2">
+            <AlertTriangle size={28} /> 
+            Oops! Profile not found.
+            <IonButton size='small' shape='round' fill='clear' color={'secondary'} routerLink='/marketplace' >Go Back</IonButton>
+        </div>
         </IonContent>
       </IonPage>
     );
@@ -123,9 +143,11 @@ const ViewProfile: React.FC = () => {
               <ul className="text-gray-700 space-y-2 mb-6 text-sm sm:text-base">
                 <li className="flex gap-2 items-center">
                   <MailIcon size={18} className="mr-1 text-amber-600" /> {fetchedUser.email ?? '—'}
+                  <CopyIcon size={12} onClick={copyEmail} />
                 </li>
                 <li className="flex gap-2 items-center">
                   <PhoneIcon size={18} className="mr-1 text-amber-600" /> Phone: {fetchedUser.phone ?? '—'}
+                  <CopyIcon size={12} onClick={copyPhone} />
                 </li>
               </ul>
 
@@ -142,9 +164,7 @@ const ViewProfile: React.FC = () => {
               </ul>
 
               <div className="flex gap-3">
-                <a href={`/contact/${fetchedUser.id}`} className="no-underline">
-                  <IonButton>Contact {fetchedUser.role === 'buyer' ? 'Buyer' : 'Seller'}</IonButton>
-                </a>
+                <IonButton>Contact {fetchedUser.role === 'buyer' ? 'Buyer' : 'Seller'}</IonButton>
                 <IonButton fill="clear" color="medium" onClick={() => setToast({ show: true, msg: 'Feature coming' })}>
                   View listings
                 </IonButton>
