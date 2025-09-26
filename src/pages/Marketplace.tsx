@@ -39,9 +39,9 @@ type Listing = {
   image: string;
   type?: 'buy' | 'sell';
   buyer?: string;
-  buyerId?: string;
+  buyer_id?: string;
   seller?: string;
-  sellerId?: string;
+  seller_id?: string;
   contact?: string;
   description?: string;
 };
@@ -180,9 +180,9 @@ const Marketplace: React.FC = () => {
         image: created.image ?? form.image ?? "https://via.placeholder.com/400x300?text=No+Image",
         type: (created.type as any) ?? form.type,
         seller: (created as any).seller_name ?? (form.type === 'sell' ? user?.name ?? "You" : undefined),
-        sellerId: (created as any).seller_id ?? undefined,
+        seller_id: (created as any).seller_id ?? undefined,
         buyer: (created as any).buyer_name ?? (form.type === 'buy' ? user?.name ?? "You" : undefined),
-        buyerId: (created as any).buyer_id ?? undefined,
+        buyer_id: (created as any).buyer_id ?? undefined,
         contact: created.contact ?? form.contact ?? undefined,
         description: created.description ?? form.description ?? undefined,
       };
@@ -260,7 +260,7 @@ const Marketplace: React.FC = () => {
                 <IonRow className="">
                     <div className="grid grid-cols-1 w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1 mt-4">
                     {filteredListings.map((listing) => (
-                        <IonItem className="w-full" lines="none" routerLink="/contactseller/2" key={listing.id}>
+                        <IonItem className="w-full" lines="none" routerLink={`/viewprofile/${activeTab === "buy" ? listing.buyer_id : listing.seller_id}`} key={listing.id}>
                             <div className="flex flex-wra w-full h-42 md:h-44 lg:h-48  rounded-2xl shadow-md transition-transform duration-200 hover:-translate-y-1 bg-white mb-3 overflow-hidden">
                               {/* Image */}
                               <div className="w-38 h-full md:w-40 md:h-48">
@@ -294,7 +294,7 @@ const Marketplace: React.FC = () => {
                                     Censono Tech Ltd
                                 </span>
                                 </p>
-                                <IonButton routerLink="/contactseller/1">Contact Seller</IonButton>
+                                <IonButton routerLink={`/viewprofile/${activeTab === "buy" ? listing.buyer_id : listing.seller_id}`}>{activeTab === "buy" ? "Contact Buyer" : "Contact Seller"}</IonButton>
                             </div>
                             </div>
                         </IonItem>

@@ -57,6 +57,7 @@ import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
 import { useAuth } from './contexts/AuthContext';
 import LogoImage from "./assets/hortiLogo.png";
+import ViewProfile from './pages/ViewProfile';
 
 
 setupIonicReact();
@@ -113,6 +114,7 @@ const AppContent: React.FC = () => {
         <PrivateRoute exact path="/marketplace" component={MarketPlace} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/contactseller/:id" component={ContactSeller} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path="/viewprofile/:id" component={ViewProfile} isAuthenticated={isAuthenticated} />
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>

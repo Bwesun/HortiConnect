@@ -53,7 +53,14 @@ const RegisterPage: React.FC = () => {
     const newName = capitalizeWords(capitalizeWord(name));
     const newRole = capitalizeWord(role);
     try {
-      await register({ name: newName, phone, role: newRole, address, email, password });
+      await register({ 
+        name: newName, 
+        phone, 
+        role, 
+        address, 
+        email, 
+        password 
+      });
       history.push("/home");
     } catch (err: any) {
       setError(err.message || "Failed to register. Please try again.");
