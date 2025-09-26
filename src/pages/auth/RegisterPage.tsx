@@ -133,10 +133,10 @@ const RegisterPage: React.FC = () => {
               <IonSelectOption className="selectbtn" value="user">Select your role</IonSelectOption>
               <IonSelectOption className="selectbtn" value="farmer">Farmer</IonSelectOption>
               <IonSelectOption className="selectbtn" value="agrodealer">Agrodealer</IonSelectOption>
-              <IonSelectOption className="selectbtn" value="service_provider">
+              <IonSelectOption className="selectbtn" value="service-provider">
                 Service Provider
               </IonSelectOption>
-              <IonSelectOption className="selectbtn" value="food_processor">Other</IonSelectOption>
+              <IonSelectOption className="selectbtn" value="food-processor">Other</IonSelectOption>
               <IonSelectOption className="selectbtn" value="other">Other</IonSelectOption>
             </IonSelect>
           </IonItem>

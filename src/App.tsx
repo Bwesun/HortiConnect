@@ -46,7 +46,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 import { useEffect } from 'react';
 import { StatusBar, Style } from "@capacitor/status-bar"
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/admin/Dashboard';
 import Home from './pages/Home';
 import ClusterDirectory from './pages/ClusterDirectory';
 import ViewCluster from './pages/ViewCluster';
@@ -98,7 +98,7 @@ const App: React.FC = () => {
 };
 
 const AppContent: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const location = useLocation();
   const showTabBar = !['/login', '/register'].includes(location.pathname);
 
@@ -115,16 +115,24 @@ const AppContent: React.FC = () => {
         <PrivateRoute exact path="/contactseller/:id" component={ContactSeller} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/viewprofile/:id" component={ViewProfile} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/dashboard' component={Dashboard} isAuthenticated={isAuthenticated} />
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>
       </IonRouterOutlet>
       {showTabBar && (
         <IonTabBar slot="bottom">
-          <IonTabButton tab="home" href="/home">
-            <HomeIcon size={20} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
+          {user?.role === 'admin' ? (
+            <IonTabButton tab="home" href="/dashboard">
+              <LayoutDashboard size={20} />
+              <IonLabel>Dashboard</IonLabel>
+            </IonTabButton>
+          ) : (
+            <IonTabButton tab="home" href="/home">
+              <HomeIcon size={20} />
+              <IonLabel>Home</IonLabel>
+            </IonTabButton>
+          )}
           <IonTabButton tab="marketplace" href="/marketplace">
             <ShoppingCart size={20} />
             <IonLabel>Marketplace</IonLabel>
