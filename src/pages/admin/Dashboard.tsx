@@ -45,6 +45,7 @@ const Dashboard: React.FC = () => {
     listings: 0,
     records: 0,
     revenue: 0,
+    clusters: 0,
   });
   const [recentListings, setRecentListings] = useState<Listing[]>([]);
   const [page, setPage] = useState(1);
@@ -67,6 +68,7 @@ const Dashboard: React.FC = () => {
           listings: payload?.data?.listings ?? 0,
           records: payload?.data?.records ?? 0,
           revenue: payload?.data?.revenue ?? 0,
+          clusters: payload?.data?.clusters ?? 0,
         });
       } catch {
         // fallback / keep zeros
@@ -117,7 +119,7 @@ const Dashboard: React.FC = () => {
   const cards: StatCard[] = [
     { title: "Registered Users", value: stats.users, icon: <UsersIcon size={20} className="text-amber-600" />, link: "/admin/users" },
     { title: "Marketplace Listings", value: stats.listings, icon: <ShoppingCartIcon size={20} className="text-amber-600" />, link: "/marketplace" },
-    { title: "Clusters", value: stats.records, icon: <NetworkIcon size={20} className="text-amber-600" />, link: "/admin/records" },
+    { title: "Clusters", value: stats.clusters, icon: <NetworkIcon size={20} className="text-amber-600" />, link: "/admin/clusters" },
   ];
 
   return (
@@ -156,21 +158,21 @@ const Dashboard: React.FC = () => {
             <Link to="/admin/users">
                 <IonButton color="primary">
                   <UsersRoundIcon className="mr-2" /> 
-                  Manage Users
+                  User Directory
                 </IonButton>
               </Link>
             <Link to="/admin/clusters">
               <IonButton color="secondary">
                 <LucideNetwork className="mr-2" />
-                Manage Clusters
+                Clusters Directory
               </IonButton>
             </Link>
-            <Link to="/admin/users">
+            {/* <Link to="/admin/users">
               <IonButton color="light">User Directory</IonButton>
             </Link>
             <Link to="/admin/reports">
               <IonButton color="medium">Generate Report</IonButton>
-            </Link>
+            </Link> */}
             <IonButton color="danger" onClick={() => { navigator.clipboard.writeText(JSON.stringify({ users: stats.users })); }}>Export Snapshot</IonButton>
           </div>
 

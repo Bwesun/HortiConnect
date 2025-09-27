@@ -16,7 +16,7 @@ import {
   IonButtons,
 } from "@ionic/react";
 import TopNav from "../../components/TopNav";
-import { Edit, Trash2Icon, RefreshCcwIcon, X, Eye } from "lucide-react";
+import { Edit, Trash2Icon, RefreshCcwIcon, X, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001/api";
 const LIMIT = 15;
@@ -198,7 +198,7 @@ const ManageUsers: React.FC = () => {
           <IonModal isOpen={isModalOpen} onDidDismiss={() => setIsModalOpen(false)}>
             <IonHeader>
               <IonToolbar className="px-4" color={"primary"}>
-                <IonTitle>User details</IonTitle>
+                <IonTitle color={"light"}>User details</IonTitle>
                 <IonButtons slot="end">
                   <IonButton onClick={() => setIsModalOpen(false)}><X className="w-6 h-6" /></IonButton>
                 </IonButtons>
@@ -235,8 +235,8 @@ const ManageUsers: React.FC = () => {
           <div className="flex items-center justify-between mt-3">
             <div className="text-sm text-gray-600">Page {page} of {totalPages}</div>
             <div className="flex gap-2">
-              <IonButton disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</IonButton>
-              <IonButton disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Next</IonButton>
+              <IonButton disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}><ChevronLeft size={16} /> Prev</IonButton>
+              <IonButton disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Next <ChevronRight size={16} /></IonButton>
             </div>
           </div>
         </div>

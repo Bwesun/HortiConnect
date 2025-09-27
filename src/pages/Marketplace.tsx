@@ -36,7 +36,7 @@ type Listing = {
   category: string;
   price: string;
   location: string;
-  image: string;
+  image: string | 'https://images.unsplash.com/photo-1557844352-761f2565b576?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80';
   type?: 'buy' | 'sell';
   buyer?: string;
   buyer_id?: string;
