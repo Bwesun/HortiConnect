@@ -44,7 +44,7 @@ const StatsChart: React.FC<{ stats: { users: number; listings: number; clusters:
   const items = [
     { key: "users", label: "Users", value: Number(stats.users || 0), color: "#f59e0b" }, // amber
     { key: "listings", label: "Listings", value: Number(stats.listings || 0), color: "#10b981" }, // green
-    { key: "clusters", label: "Clusters", value: Number(stats.clusters || 0), color: "#f97316" }, // orange
+    { key: "clusters", label: "Clusters", value: Number(stats.clusters || 0), color: "#0054e9" }, // blue
   ];
 
   const max = Math.max(...items.map(i => i.value), 1);
@@ -196,7 +196,7 @@ const Dashboard: React.FC = () => {
           {/* quick actions */}
           <div className="bg-white rounded-lg shadow p-4 flex flex-wrap items-center gap-3">
             <Link to="/admin/users">
-                <IonButton color="primary">
+                <IonButton color="primary" size="smal">
                   <UsersRoundIcon className="mr-2" /> 
                   User Directory
                 </IonButton>
