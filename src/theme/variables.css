@@ -108,6 +108,7 @@ ion-card, ion-list{
 ion-item {
     --background: var(--ion-color-light);
 	border-radius: 3rem;
+	color: var(--ion-color-medium);
 }
 
 ion-input, ion-textarea, ion-select, ion-searchbar{

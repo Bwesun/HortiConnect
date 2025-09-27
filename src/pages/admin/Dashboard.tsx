@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { IonPage, IonContent, IonButton } from "@ionic/react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Users as UsersIcon,
   ShoppingCart as ShoppingCartIcon,
@@ -10,10 +10,14 @@ import {
   ArrowRight as ArrowRightIcon,
   NetworkIcon,
   ChevronRightIcon,
+  CogIcon,
+  LogOutIcon,
+  UsersRoundIcon,
+  LucideNetwork,
 } from "lucide-react";
 import TopNav from "../../components/TopNav";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001/api";
+const API_URL = import.meta.env.VITE_API_URL;
 const LIMIT = 8;
 
 type StatCard = {
@@ -29,6 +33,7 @@ type Listing = {
   price: string;
   location?: string;
   seller_name?: string;
+  buyer_name?: string;
   type?: "buy" | "sell";
   contact?: string;
   created_at?: string;
@@ -45,6 +50,7 @@ const Dashboard: React.FC = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
@@ -97,6 +103,17 @@ const Dashboard: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
+  const handleLogout = () => {
+    try {
+      localStorage.removeItem("token");
+      // clear any other auth state if stored
+      localStorage.removeItem("user");
+    } catch (e) {
+      /* ignore */
+    }
+    history.replace("/login");
+  };
+
   const cards: StatCard[] = [
     { title: "Registered Users", value: stats.users, icon: <UsersIcon size={20} className="text-amber-600" />, link: "/admin/users" },
     { title: "Marketplace Listings", value: stats.listings, icon: <ShoppingCartIcon size={20} className="text-amber-600" />, link: "/marketplace" },
@@ -114,12 +131,10 @@ const Dashboard: React.FC = () => {
               <p className="text-sm text-gray-600">Overview of platform activity and quick administration actions.</p>
             </div>
             <div className="flex items-center gap-2">
-              <Link to="/admin/settings">
-                <IonButton color="light"><SettingsIcon size={14} className="mr-2" /> Settings</IonButton>
-              </Link>
-              <Link to="/admin/users">
-                <IonButton color="primary">Manage Users</IonButton>
-              </Link>
+              <IonButton color="primary" fill="clear" onClick={handleLogout}>
+                Logout
+                <LogOutIcon className="ml-2" />
+              </IonButton>
             </div>
           </header>
 
@@ -138,17 +153,34 @@ const Dashboard: React.FC = () => {
 
           {/* quick actions */}
           <div className="bg-white rounded-lg shadow p-4 flex flex-wrap items-center gap-3">
-            <Link to="/marketplace/create"><IonButton color="primary">Create Listing</IonButton></Link>
-            <Link to="/records/add"><IonButton color="tertiary">Add Service Record</IonButton></Link>
-            <Link to="/admin/users"><IonButton color="light">User Directory</IonButton></Link>
-            <Link to="/admin/reports"><IonButton color="medium">Generate Report</IonButton></Link>
+            <Link to="/admin/users">
+                <IonButton color="primary">
+                  <UsersRoundIcon className="mr-2" /> 
+                  Manage Users
+                </IonButton>
+              </Link>
+            <Link to="/admin/clusters">
+              <IonButton color="secondary">
+                <LucideNetwork className="mr-2" />
+                Manage Clusters
+              </IonButton>
+            </Link>
+            <Link to="/admin/users">
+              <IonButton color="light">User Directory</IonButton>
+            </Link>
+            <Link to="/admin/reports">
+              <IonButton color="medium">Generate Report</IonButton>
+            </Link>
             <IonButton color="danger" onClick={() => { navigator.clipboard.writeText(JSON.stringify({ users: stats.users })); }}>Export Snapshot</IonButton>
           </div>
 
           {/* Recent Listings */}
           <div className="bg-white rounded-lg shadow p-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-medium">Recent Listings</h3>
+              <h3 className="">
+                <span className="mr-2 text-lg font-medium text-gray-800">Recent Listings</span>
+                {loading && <span className="text-sm sm:text-2xl text-gray-500 italic">Loading...</span>}
+              </h3>
               <div className="text-sm text-gray-600">Page {page} / {totalPages}</div>
             </div>
 
@@ -156,12 +188,11 @@ const Dashboard: React.FC = () => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">#</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"></th>
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Title</th>
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seller</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seller/Buyer</th>
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                     <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Action</th>
                   </tr>
@@ -172,9 +203,8 @@ const Dashboard: React.FC = () => {
                       <td className="px-4 py-2 text-sm text-gray-700">{(page - 1) * LIMIT + i + 1}</td>
                       <td className="px-4 py-2 text-sm text-gray-900">{l.title}</td>
                       <td className="px-4 py-2 text-sm text-gray-700">{l.type ?? "sell"}</td>
-                      <td className="px-4 py-2 text-sm text-gray-700">{l.seller_name ?? "—"}</td>
+                      <td className="px-4 py-2 text-sm text-gray-700">{l.seller_name ?? l.buyer_name ?? "—"}</td>
                       <td className="px-4 py-2 text-sm text-gray-700">{l.price}</td>
-                      <td className="px-4 py-2 text-sm text-gray-700">{l.contact ?? "—"}</td>
                       <td className="px-4 py-2 text-sm text-gray-500">{l.created_at ? new Date(l.created_at).toLocaleDateString() : "—"}</td>
                       <td className="px-4 py-2 text-right">
                         <Link to={`/marketplace/${l.id}`} className="text-amber-600 inline-flex items-center">

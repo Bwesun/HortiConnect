@@ -58,6 +58,8 @@ import RegisterPage from './pages/auth/RegisterPage';
 import { useAuth } from './contexts/AuthContext';
 import LogoImage from "./assets/hortiLogo.png";
 import ViewProfile from './pages/ViewProfile';
+import ManageUsers from './pages/admin/Users';
+import ManageClusters from './pages/admin/Clusters';
 
 
 setupIonicReact();
@@ -115,7 +117,11 @@ const AppContent: React.FC = () => {
         <PrivateRoute exact path="/contactseller/:id" component={ContactSeller} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/viewprofile/:id" component={ViewProfile} isAuthenticated={isAuthenticated} />
-        <PrivateRoute exact path='/dashboard' component={Dashboard} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/admin/dashboard' component={Dashboard} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/admin/users' component={ManageUsers} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/admin/clusters' component={ManageClusters} isAuthenticated={isAuthenticated} />
+
+
         <Route exact path="/">
           <Redirect to="/home" />
         </Route>
@@ -123,7 +129,7 @@ const AppContent: React.FC = () => {
       {showTabBar && (
         <IonTabBar slot="bottom">
           {user?.role === 'admin' ? (
-            <IonTabButton tab="home" href="/dashboard">
+            <IonTabButton tab="home" href="/admin/dashboard">
               <LayoutDashboard size={20} />
               <IonLabel>Dashboard</IonLabel>
             </IonTabButton>
