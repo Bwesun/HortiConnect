@@ -196,7 +196,7 @@ const Dashboard: React.FC = () => {
           {/* quick actions */}
           <div className="bg-white rounded-lg shadow p-4 flex flex-wrap items-center gap-3">
             <Link to="/admin/users">
-                <IonButton color="primary" size="smal">
+                <IonButton color="primary">
                   <UsersRoundIcon className="mr-2" /> 
                   User Directory
                 </IonButton>
