@@ -229,7 +229,6 @@ const ManageClusters: React.FC = () => {
                   <div className="mt-6 flex gap-2">
                     <IonButton onClick={() => { openEdit(selected); setViewOpen(false); }}>Edit</IonButton>
                     <IonButton color="danger" onClick={() => { remove(selected.id); setViewOpen(false); }}>Delete</IonButton>
-                    <IonButton fill="clear" onClick={() => setViewOpen(false)}>Close</IonButton>
                   </div>
                 </>
               ) : (
@@ -244,7 +243,7 @@ const ManageClusters: React.FC = () => {
           <IonHeader>
             <IonToolbar color="primary" className="ion-padding-horizontal">
               <IonTitle color={"light"}>{form?.id ? "Edit cluster" : "Create cluster"}</IonTitle>
-              <IonButtons slot="end"><IonButton onClick={() => setEditOpen(false)}>Close</IonButton></IonButtons>
+              <IonButtons slot="end"><IonButton onClick={() => setEditOpen(false)}><X className="text-white" /></IonButton></IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonContent>

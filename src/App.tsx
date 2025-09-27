@@ -12,7 +12,6 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
 import { HomeIcon, LayoutDashboard, Network, ShoppingCart, User } from "lucide-react";
 
 /* Core CSS required for Ionic components to work properly */
@@ -115,7 +114,7 @@ const AppContent: React.FC = () => {
         <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/marketplace" component={MarketPlace} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/contactseller/:id" component={ContactSeller} isAuthenticated={isAuthenticated} />
-        <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} />
+        {/* <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} /> */}
         <PrivateRoute exact path="/viewprofile/:id" component={ViewProfile} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path='/admin/dashboard' component={Dashboard} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path='/admin/users' component={ManageUsers} isAuthenticated={isAuthenticated} />

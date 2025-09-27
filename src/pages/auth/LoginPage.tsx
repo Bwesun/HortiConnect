@@ -21,7 +21,7 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-  const { login, isAuthenticated, isLoading } = useAuth();
+  const { login, isAuthenticated, isLoading, user } = useAuth();
   const history = useHistory();
 
   useEffect(() => {
@@ -38,7 +38,14 @@ const LoginPage: React.FC = () => {
     setLoading(true)
     try {
       const response = await login(email, password);
-      history.replace("/home");
+      console.log("Login successful:", response.role);
+      // Redirect based on role
+      if (response.role === "admin") {
+        history.replace("/admin/dashboard");
+      } else {
+        history.replace("/home");
+      }
+      setLoading(false)
     } catch (err: any) {
       // console.log(err);
       setToastMessage(err.message || "Failed to login. Please check your credentials.");

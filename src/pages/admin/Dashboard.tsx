@@ -174,12 +174,12 @@ const Dashboard: React.FC = () => {
           {/* stats + chart row */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="lg:col-span-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {cards.map((c, idx) => (
                   <div key={idx} className="bg-white rounded-lg shadow p-4 flex items-center justify-between">
                     <div>
                       <div className="text-xs text-gray-500 uppercase">{c.title}</div>
-                      <div className="text-2xl font-bold text-gray-900">{c.value}</div>
+                      <div className="text-lg sm:text-2xl font-bold text-gray-900">{c.value}</div>
                     </div>
                     <div className="bg-amber-50 p-3 rounded">{c.icon}</div>
                   </div>
