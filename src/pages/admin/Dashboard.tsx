@@ -39,6 +39,57 @@ type Listing = {
   created_at?: string;
 };
 
+// Simple inline SVG stats chart (no external deps)
+const StatsChart: React.FC<{ stats: { users: number; listings: number; records: number; clusters: number; revenue: number } }> = ({ stats }) => {
+  const items = [
+    { key: "users", label: "Users", value: Number(stats.users || 0), color: "#f59e0b" }, // amber
+    { key: "listings", label: "Listings", value: Number(stats.listings || 0), color: "#10b981" }, // green
+    { key: "records", label: "Records", value: Number(stats.records || 0), color: "#3b82f6" }, // blue
+    { key: "clusters", label: "Clusters", value: Number(stats.clusters || 0), color: "#f97316" }, // orange
+  ];
+
+  const max = Math.max(...items.map(i => i.value), 1);
+  return (
+    <div className="bg-white rounded-lg shadow p-4">
+      <h4 className="text-sm font-medium text-gray-700 mb-3">Platform overview</h4>
+      <div className="space-y-3">
+        {items.map((it) => (
+          <div key={it.key} className="flex items-center gap-3">
+            <div className="w-24 text-xs text-gray-600">{it.label}</div>
+            <div className="flex-1 bg-gray-100 rounded h-4 overflow-hidden">
+              <div
+                style={{ width: `${(it.value / max) * 100}%`, background: it.color, height: "100%" }}
+                className="transition-all"
+                title={`${it.label}: ${it.value}`}
+              />
+            </div>
+            <div className="w-16 text-right text-sm font-medium text-gray-800">{it.value.toLocaleString()}</div>
+          </div>
+        ))}
+
+        {/* small revenue sparkline */}
+        <div className="mt-3">
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-xs text-gray-600">Revenue (approx)</div>
+            <div className="text-sm font-semibold text-gray-800">₦{Number(stats.revenue || 0).toLocaleString()}</div>
+          </div>
+          <svg viewBox="0 0 100 30" className="w-full h-8">
+            <polyline
+              fill="none"
+              stroke="#f59e0b"
+              strokeWidth={2}
+              points="0,25 20,18 40,12 60,9 80,6 100,4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity={0.9}
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Dashboard: React.FC = () => {
   const [stats, setStats] = useState({
     users: 0,
@@ -140,17 +191,26 @@ const Dashboard: React.FC = () => {
             </div>
           </header>
 
-          {/* stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {cards.map((c, idx) => (
-              <div key={idx} className="bg-white rounded-lg shadow p-4 flex items-center justify-between">
-                <div>
-                  <div className="text-xs text-gray-500 uppercase">{c.title}</div>
-                  <div className="text-2xl font-bold text-gray-900">{c.value}</div>
-                </div>
-                <div className="bg-amber-50 p-3 rounded">{c.icon}</div>
+          {/* stats + chart row */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <div className="lg:col-span-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {cards.map((c, idx) => (
+                  <div key={idx} className="bg-white rounded-lg shadow p-4 flex items-center justify-between">
+                    <div>
+                      <div className="text-xs text-gray-500 uppercase">{c.title}</div>
+                      <div className="text-2xl font-bold text-gray-900">{c.value}</div>
+                    </div>
+                    <div className="bg-amber-50 p-3 rounded">{c.icon}</div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* stats chart */}
+            <div>
+              <StatsChart stats={{ users: Number(stats.users), listings: Number(stats.listings), records: Number(stats.records), clusters: Number(stats.clusters), revenue: Number(stats.revenue) }} />
+            </div>
           </div>
 
           {/* quick actions */}
