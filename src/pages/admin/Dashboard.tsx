@@ -8,6 +8,8 @@ import {
   DollarSign as DollarSignIcon,
   Settings as SettingsIcon,
   ArrowRight as ArrowRightIcon,
+  NetworkIcon,
+  ChevronRightIcon,
 } from "lucide-react";
 import TopNav from "../../components/TopNav";
 
@@ -98,8 +100,7 @@ const Dashboard: React.FC = () => {
   const cards: StatCard[] = [
     { title: "Registered Users", value: stats.users, icon: <UsersIcon size={20} className="text-amber-600" />, link: "/admin/users" },
     { title: "Marketplace Listings", value: stats.listings, icon: <ShoppingCartIcon size={20} className="text-amber-600" />, link: "/marketplace" },
-    { title: "Service Records", value: stats.records, icon: <FileTextIcon size={20} className="text-amber-600" />, link: "/admin/records" },
-    { title: "Revenue (₦)", value: stats.revenue.toLocaleString?.() ?? stats.revenue, icon: <DollarSignIcon size={20} className="text-amber-600" />, link: "/admin/reports" },
+    { title: "Clusters", value: stats.records, icon: <NetworkIcon size={20} className="text-amber-600" />, link: "/admin/records" },
   ];
 
   return (
@@ -189,8 +190,11 @@ const Dashboard: React.FC = () => {
             <div className="flex items-center justify-between mt-4">
               <div className="text-sm text-gray-600">Showing {recentListings.length} items</div>
               <div className="flex items-center gap-2">
-                <button className="px-3 py-1 bg-gray-100 rounded" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</button>
-                <button className="px-3 py-1 bg-gray-100 rounded" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>Next</button>
+                <button className="px-3 sm:px-6 py-1 sm:py-3 text-amber-600 rounded disabled:opacity-50" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>Prev</button>
+                <button className="px-3 sm:px-6 py-1 sm:py-3 text-amber-600 rounded disabled:opacity-50" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
+                  Next
+                  <ChevronRightIcon size={16} className="inline ml-2" />
+                </button>
               </div>
             </div>
           </div>

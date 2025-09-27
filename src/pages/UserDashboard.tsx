@@ -69,7 +69,7 @@ const chartOptions = {
   },
 };
 
-const Dashboard: React.FC = () => {
+const UserDashboard: React.FC = () => {
     return ( 
         <IonPage>
             <IonContent fullscreen className="bg-gray-50">
@@ -151,4 +151,4 @@ const Dashboard: React.FC = () => {
      );
 }
  
-export default Dashboard;
+export default UserDashboard;
