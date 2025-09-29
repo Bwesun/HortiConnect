@@ -13,6 +13,8 @@ import {
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import {
   CalendarIcon,
+  ChevronLeft,
+  ChevronLeftIcon,
   ClipboardListIcon,
   Contact as ContactIcon,
   MailIcon,
@@ -258,9 +260,9 @@ const ViewCluster: React.FC = () => {
           </ul>
 
           <div className="mt-4 flex gap-2">
-            <IonButton expand="block" color="primary" className="mt-4 sm:block hidden" onClick={joinCluster}>Join This Cluster</IonButton>
+            {/* <IonButton expand="block" color="primary" className="mt-4 sm:block hidden" onClick={joinCluster}>Join This Cluster</IonButton> */}
             {/* <IonButton expand="block" size="small" color="primary" className="mt-4 sm:hidden block" onClick={joinCluster}>Join This Cluster</IonButton> */}
-            <IonButton fill="clear" onClick={() => history.push('/clusters')}>Back</IonButton>
+            <IonButton fill="clear" onClick={() => history.push('/clusters')}><ChevronLeftIcon size={20} /> Back</IonButton>
           </div>
         </section>
 

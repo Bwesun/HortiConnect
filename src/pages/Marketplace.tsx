@@ -22,6 +22,7 @@ import {
   IonTextarea,
   IonText,
   IonToast,
+  IonSpinner,
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon, ShoppingBag, Tag, Truck } from "lucide-react";
@@ -38,16 +39,16 @@ type Listing = {
   location: string;
   image: string | 'https://images.unsplash.com/photo-1557844352-761f2565b576?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80';
   type?: 'buy' | 'sell';
-  buyer?: string;
+  buyer_name?: string;
   buyer_id?: string;
-  seller?: string;
+  seller_name?: string;
   seller_id?: string;
   contact?: string;
   description?: string;
 };
 
 const API_URL = import.meta.env.VITE_API_URL;
-const LIMIT = 5;
+const LIMIT = 10; // items per page
 
 
 const Marketplace: React.FC = () => {
@@ -75,7 +76,7 @@ const Marketplace: React.FC = () => {
   const [listings, setListings] = useState<Listing[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -84,6 +85,7 @@ const Marketplace: React.FC = () => {
   useEffect(() => {
     const fetchListings = async () => {
       try {
+        setLoading(true);
         const params = new URLSearchParams();
         params.set("page", String(page));
         params.set("limit", String(LIMIT));
@@ -104,8 +106,10 @@ const Marketplace: React.FC = () => {
         const total = Number(payload?.total ?? rows.length);
         setListings(rows);
         setTotalPages(Math.max(1, Math.ceil(total / LIMIT)));
+        setLoading(false);
       } catch (err: any) {
         console.error("Fetch listings error:", err);
+        setLoading(false);
       }
     };
     fetchListings();
@@ -139,7 +143,7 @@ const Marketplace: React.FC = () => {
       setErrorMsg("Title and price are required.");
       return;
     }
-    setIsSubmitting(true);
+    setIsSubmitting(true); // prevent multiple submissions
     try {
       const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
       const res = await fetch(`${API_URL}/listings`, {
@@ -179,9 +183,9 @@ const Marketplace: React.FC = () => {
         location: created.location ?? form.location ?? "Unknown",
         image: created.image ?? form.image ?? "https://via.placeholder.com/400x300?text=No+Image",
         type: (created.type as any) ?? form.type,
-        seller: (created as any).seller_name ?? (form.type === 'sell' ? user?.name ?? "You" : undefined),
+        seller_name: (created as any).seller_name ?? (form.type === 'sell' ? user?.name ?? "You" : undefined),
         seller_id: (created as any).seller_id ?? undefined,
-        buyer: (created as any).buyer_name ?? (form.type === 'buy' ? user?.name ?? "You" : undefined),
+        buyer_name: (created as any).buyer_name ?? (form.type === 'buy' ? user?.name ?? "You" : undefined),
         buyer_id: (created as any).buyer_id ?? undefined,
         contact: created.contact ?? form.contact ?? undefined,
         description: created.description ?? form.description ?? undefined,
@@ -208,7 +212,7 @@ const Marketplace: React.FC = () => {
       setIsSubmitting(false);
     }
   };
-
+  
   return (
     <IonPage>
       <IonContent className="" fullscreen>
@@ -232,7 +236,7 @@ const Marketplace: React.FC = () => {
         <div className="flex items-end mb-2 sm:mb-4 justify-center p-2">
           {/* Filters */}
           <IonSearchbar
-          className="sm:flex-1"
+          className="sm:flex-1 border-b border-b-gray-200 rounded"
             placeholder="Search marketplace"
             color={"light"}
             mode="ios"
@@ -240,7 +244,7 @@ const Marketplace: React.FC = () => {
             onIonInput={(e) => setSearchTerm(e.detail.value!)}
           />
 
-          <IonSelect className="flex-3 sm:flex-1 ml-2 sm:ml-4"
+          <IonSelect className="flex-3 sm:flex-1 ml-2 sm:ml-4 border-b border-b-gray-200 rounded"
             color={"primary"}
             value={categoryFilter}
             placeholder="Filter by Category"
@@ -263,7 +267,7 @@ const Marketplace: React.FC = () => {
                         <IonItem className="w-full" lines="none" routerLink={`/viewprofile/${activeTab === "buy" ? listing.buyer_id : listing.seller_id}`} key={listing.id}>
                             <div className="flex flex-wra w-full h-42 md:h-44 lg:h-48  rounded-2xl shadow-md transition-transform duration-200 hover:-translate-y-1 bg-white mb-3 overflow-hidden">
                               {/* Image */}
-                              <div className="w-38 h-full md:w-40 md:h-48">
+                              <div className="w-32 sm:w-43 h-full md:w-40 md:h-48">
                                   <img
                                   src={listing.image || 'https://images.unsplash.com/photo-1557844352-761f2565b576?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80'}
                                   alt={listing.title}
@@ -291,7 +295,7 @@ const Marketplace: React.FC = () => {
                                 <p className="text-sm text-gray-600 mt-1">
                                 {activeTab === "buy" ? "Buyer: " : "Seller: "}
                                 <span className="font-semibold">
-                                    Censono Tech Ltd
+                                    {listing.buyer_name || listing.seller_name || "N/A"}
                                 </span>
                                 </p>
                                 <IonButton routerLink={`/viewprofile/${activeTab === "buy" ? listing.buyer_id : listing.seller_id}`}>{activeTab === "buy" ? "Contact Buyer" : "Contact Seller"}</IonButton>
@@ -303,13 +307,20 @@ const Marketplace: React.FC = () => {
                 </div>
                 </IonRow>
             </IonGrid>
-        ) : (
+        ) : loading ? (
+          <IonCard>
+            <IonCardContent className="ion-text-center ">
+              <IonSpinner name="crescent" color={"primary"} />
+              <p>Please wait, loading listings...</p>
+            </IonCardContent>
+          </IonCard>
+        ) : filteredListings.length === 0 && !loading ? (
           <IonCard>
             <IonCardContent className="ion-text-center">
               <IonText>No listings found.</IonText>
             </IonCardContent>
           </IonCard>
-        )}
+        )  : null }
 
         {/* Pagination */}
         <div className="flex items-center justify-center gap-3 mt-4">
