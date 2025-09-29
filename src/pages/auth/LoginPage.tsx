@@ -44,6 +44,8 @@ const LoginPage: React.FC = () => {
         history.replace("/admin/dashboard");
       } else {
         history.replace("/home");
+        console.log("User logged in", response);
+
       }
       setLoading(false)
     } catch (err: any) {
