@@ -44,12 +44,12 @@ class ApiService {
   }) {
     try{
       const response = await axios.post(`${API_BASE_URL}/auth/register`, userData);
-      console.log("Registration response:", response.data); // Debug log
-      console.log("User data sent:", userData); // Debug log
+      // console.log("Registration response:", response.data); // Debug log
+      // console.log("User data sent:", userData); // Debug log
       return response.data;
     } catch (error: any) {
       if (error.response) {
-      console.error("Backend error:", error.response.data); // See actual backend message
+      console.error("Backend error:", error); // See actual backend message
     } else {
       console.error("Unknown error:", error.message);
     }
