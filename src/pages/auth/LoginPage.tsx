@@ -38,7 +38,6 @@ const LoginPage: React.FC = () => {
     setLoading(true)
     try {
       const response = await login(email, password);
-      console.log("Login successful:", response.role);
       // Redirect based on role
       if (response.role === "admin") {
         history.replace("/admin/dashboard");

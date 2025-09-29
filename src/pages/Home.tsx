@@ -12,7 +12,7 @@ const Home: React.FC = () => {
             icon: <UsersIcon size={20} />,
             description:
                 'Access profiles of clusters, value chain focus, membership, and contacts.',
-            link: '/directory',
+            link: '/clusters',
             button_text: 'Explore'
         },
         {
@@ -28,7 +28,7 @@ const Home: React.FC = () => {
             icon: <BookOpenIcon size={20} />,
             description:
                 'Access multimedia resources on horticultural practices and business skills.',
-            link: '/knowledge-hub',
+            link: '',
             button_text: 'Learn More'
         },
         {
@@ -36,7 +36,7 @@ const Home: React.FC = () => {
             icon: <MessagesSquare size={20} />,
             description:
                 'Engage in chat groups, receive alerts, and view event calendars.',
-            link: '/communication',
+            link: '',
             button_text: 'Engage'
         },
         // {

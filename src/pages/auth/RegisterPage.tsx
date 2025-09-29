@@ -12,6 +12,7 @@ import {
   IonSelectOption,
   IonTextarea,
   IonTitle,
+  IonToast,
   IonToolbar,
 } from "@ionic/react";
 import { useState } from "react";
@@ -32,6 +33,7 @@ const RegisterPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { register } = useAuth();
   const history = useHistory();
+  const [toast, setToast] = useState<{ show: boolean; msg?: string; color?: string }>({ show: false });
 
   // Capitalize first letter of a word
   function capitalizeWord(word: string): string {
@@ -50,6 +52,9 @@ const RegisterPage: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
+
+    // Capitalize name and role before sending to backend
     const newName = capitalizeWords(capitalizeWord(name));
     const newRole = capitalizeWord(role);
     try {
@@ -61,9 +66,13 @@ const RegisterPage: React.FC = () => {
         email, 
         password 
       });
+      setToast({ show: true, msg: "Registration successful!", color: "success" });
       history.push("/home");
     } catch (err: any) {
+      setToast({ show: true, msg: err?.message ?? "Registrattion failed", color: "danger" });
       setError(err.message || "Failed to register. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -183,6 +192,7 @@ const RegisterPage: React.FC = () => {
         </Link>
       </p>
     </div>
+    <IonToast isOpen={toast.show} onDidDismiss={() => setToast({ show: false })} message={toast.msg} color={toast.color === "danger" ? "danger" : "success"} duration={2500} />
       </IonContent>
     </IonPage>
   );
