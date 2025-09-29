@@ -145,7 +145,7 @@ const RegisterPage: React.FC = () => {
               <IonSelectOption className="selectbtn" value="service-provider">
                 Service Provider
               </IonSelectOption>
-              <IonSelectOption className="selectbtn" value="food-processor">Other</IonSelectOption>
+              <IonSelectOption className="selectbtn" value="food-processor">Food Processor</IonSelectOption>
               <IonSelectOption className="selectbtn" value="other">Other</IonSelectOption>
             </IonSelect>
           </IonItem>
