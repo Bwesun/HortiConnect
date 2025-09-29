@@ -24,6 +24,7 @@ import {
   X,
 } from 'lucide-react';
 import TopNav from '../components/TopNav';
+import hortiLogo from '../assets/hortiLogo.png';
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIMIT = 12;
@@ -160,7 +161,7 @@ const ClusterDirectory: React.FC = () => {
             ) : (
               clusters.map((group, index) => (
                 <div key={group.id ?? index} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  <IonImg src={group.image} alt={group.name} className="w-full h-28 sm:h-40 object-cover" />
+                  {/* <IonImg src={group.image ?? hortiLogo} alt={group.name} className="w-full h-28 sm:h-40 object-cover" /> */}
                   <div className="p-3 sm:p-4">
                     <h2 className="text-lg sm:text-xl font-semibold text-gray-800">{group.name}</h2>
                     <div className="flex gap-2 items-center mt-2 text-xs sm:text-sm text-gray-600">
@@ -174,13 +175,13 @@ const ClusterDirectory: React.FC = () => {
 
                     <p className="mt-2 text-gray-700 text-sm line-clamp-3">{group.about}</p>
 
-                    <div className="mt-3 flex gap-2">
-                      <IonButton fill="clear" onClick={() => openView(group)}>
+                    <div className="mt-3 flex gap-2 justify-center">
+                      <IonButton fill="clear" slot='start' onClick={() => openView(group)}>
                         View Details
                       </IonButton>
-                      <IonButton color="primary" size="small" onClick={() => joinCluster(group)}>
+                      {/* <IonButton color="primary" size="small" onClick={() => joinCluster(group)}>
                         Join
-                      </IonButton>
+                      </IonButton> */}
                     </div>
                   </div>
                 </div>
@@ -202,10 +203,11 @@ const ClusterDirectory: React.FC = () => {
             </div>
           </div>
         </div>
-
+          
+        {/* View Cluster Modal */}
         <IonModal isOpen={viewOpen} onDidDismiss={() => setViewOpen(false)}>
           <IonHeader>
-            <IonToolbar color="primary" className="ion-padding-horizontal">
+            <IonToolbar className="ion-padding-horizontal bg-gradient-to-r">
               <IonTitle color={'light'}>Cluster details</IonTitle>
               <IonButtons slot="end">
                 <IonButton onClick={() => setViewOpen(false)}><X size={24} /></IonButton>
@@ -289,11 +291,11 @@ const ClusterDirectory: React.FC = () => {
                   </div>
 
                   <div className="mt-6 flex gap-2">
-                    <IonButton color="primary" onClick={() => { setViewOpen(false); /* optionally navigate to cluster page */ }}>
-                      Join
-                    </IonButton>
-                    <IonButton fill="clear" onClick={() => setViewOpen(false)}>
-                      Close
+                    {/* <IonButton color="primary" shape='round' onClick={() => { setViewOpen(false); }}>
+                      Open
+                    </IonButton> */}
+                    <IonButton color="secondary" routerLink={`/viewcluster/${selected.id}`} shape='round' onClick={() => setViewOpen(false)}>
+                      Visit
                     </IonButton>
                   </div>
                 </>

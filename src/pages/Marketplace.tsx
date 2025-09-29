@@ -265,7 +265,7 @@ const Marketplace: React.FC = () => {
                               {/* Image */}
                               <div className="w-38 h-full md:w-40 md:h-48">
                                   <img
-                                  src={listing.image}
+                                  src={listing.image || 'https://images.unsplash.com/photo-1557844352-761f2565b576?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80'}
                                   alt={listing.title}
                                   className="w-full h-full object-cover"
                                   />
@@ -289,7 +289,7 @@ const Marketplace: React.FC = () => {
                                 </div>
 
                                 <p className="text-sm text-gray-600 mt-1">
-                                {activeTab === "buy" ? "Seller: " : "Buyer: "}
+                                {activeTab === "buy" ? "Buyer: " : "Seller: "}
                                 <span className="font-semibold">
                                     Censono Tech Ltd
                                 </span>
