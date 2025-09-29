@@ -40,11 +40,9 @@ const LoginPage: React.FC = () => {
       const response = await login(email, password);
       // Redirect based on role
       if (response.role === "admin") {
-        console.log("Admin user logged in", response);
         history.replace("/admin/dashboard");
       } else {
         history.replace("/home");
-        console.log("User logged in", response);
 
       }
       setLoading(false)
