@@ -142,11 +142,11 @@ const ViewProfile: React.FC = () => {
               </h3>
               <ul className="text-gray-700 space-y-2 mb-6 text-sm sm:text-base">
                 <li className="flex gap-2 items-center">
-                  <MailIcon size={18} className="mr-1 text-amber-600" /> {fetchedUser.email ?? '—'}
+                  <MailIcon size={18} className="mr-1 text-amber-600" /> <a href={`mailto:${fetchedUser.email ?? ''}`} className="text-amber-600">{fetchedUser.email ?? '—'}</a>
                   <CopyIcon size={12} onClick={copyEmail} />
                 </li>
                 <li className="flex gap-2 items-center">
-                  <PhoneIcon size={18} className="mr-1 text-amber-600" /> Phone: {fetchedUser.phone ?? '—'}
+                  <PhoneIcon size={18} className="mr-1 text-amber-600" /> <a href={`tel:${fetchedUser.phone ?? ''}`} className="text-amber-600">{fetchedUser.phone ?? '—'}</a>
                   <CopyIcon size={12} onClick={copyPhone} />
                 </li>
               </ul>
@@ -164,8 +164,8 @@ const ViewProfile: React.FC = () => {
               </ul>
 
               <div className="flex gap-3">
-                <IonButton>Contact {fetchedUser.role === 'buyer' ? 'Buyer' : 'Seller'}</IonButton>
-                <IonButton fill="clear" color="medium" onClick={() => setToast({ show: true, msg: 'Feature coming' })}>
+                <IonButton color="secondary" size='small'>Contact {fetchedUser.role === 'buyer' ? 'Buyer' : 'Seller'}</IonButton>
+                <IonButton fill="clear" color="medium" size='small' onClick={() => setToast({ show: true, msg: 'Feature coming' })}>
                   View listings
                 </IonButton>
               </div>

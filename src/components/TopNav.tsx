@@ -1,4 +1,4 @@
-import { IonButton, IonIcon, IonImg, IonText } from "@ionic/react";
+import { IonButton, IonIcon, IonImg, IonItem, IonText } from "@ionic/react";
 import React from "react";
 import Logo from '../../public/favicon.png'
 import { ArrowRightLeft, BellIcon, ChevronsRight, LeafIcon, LifeBuoy } from "lucide-react";
@@ -42,8 +42,10 @@ const TopNav: React.FC = () => {
             background: 'var(--ion-color-light)'
         }}>
             <div className=" flex items-center gap-4">
-                <LeafIcon size={28} className="text-amber-600" />
-                <IonText className="text-lg font-semibold" color="primary">HortiConnect</IonText>
+                <LeafIcon size={28} className="text-amber-600 ml-2" />
+                <IonItem lines="none" routerLink="/home">
+                    <IonText className="text-lg font-semibold" color="primary">HortiConnect</IonText>
+                </IonItem>
             </div>
             <div className="flex justify-end items-center">
                     <div className="flex">
@@ -51,7 +53,7 @@ const TopNav: React.FC = () => {
                             <BellIcon size={22} />
                         </IonButton>
                         <IonButton fill="clear" onClick={openWebView} shape="round">
-                            <ArrowRightLeft size={22} />
+                            <ArrowRightLeft size={22} className="mr-1" /> SSP
                         </IonButton>
                     </div>
             </div>

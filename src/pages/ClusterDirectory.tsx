@@ -22,6 +22,9 @@ import {
   PhoneIcon,
   Contact as ContactIcon,
   X,
+  AlertTriangle,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from 'lucide-react';
 import TopNav from '../components/TopNav';
 import hortiLogo from '../assets/hortiLogo.png';
@@ -148,35 +151,40 @@ const ClusterDirectory: React.FC = () => {
       <IonContent className="bg-gray-100">
         <TopNav />
 
-        <div className="p-4 max-w-6xl mx-auto">
-          <h1 className="text-lg sm:text-2xl font-semibold text-gray-800 p-2 sm:p-4">Cluster Directory</h1>
+        <div className="px-2 sm:px-4 max-w-6xl mx-auto">
+          <h1><span className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-800 p-2 sm:p-4">Cluster Directory</span> </h1>
 
-          <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3 p-2 sm:p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-2 sm:p-4">
             {loading ? (
               <div className="col-span-full p-8 text-center">
-                <IonSpinner />
+                <IonSpinner name="crescent" color={'primary'} />
+                <p className="text-gray-600 mt-2 text-sm sm:text-md">Loading clusters...</p>
               </div>
             ) : clusters.length === 0 ? (
-              <div className="col-span-full p-6 text-center text-gray-600">No clusters found.</div>
+              <div className="col-span-full p-6 text-center text-gray-600">
+                <AlertTriangle className="mx-auto mb-2 text-red-600" size={48} />
+                <p className="text-sm sm:text-md">No clusters found</p>
+              </div>
             ) : (
               clusters.map((group, index) => (
                 <div key={group.id ?? index} className="bg-white rounded-lg shadow-md overflow-hidden">
                   {/* <IonImg src={group.image ?? hortiLogo} alt={group.name} className="w-full h-28 sm:h-40 object-cover" /> */}
-                  <div className="p-3 sm:p-4">
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800">{group.name}</h2>
+                  <div className="px-3 py-1 sm:p-4 ">
+                    <h2><span className="text-lg sm:text-xl font-semibold text-gray-800">{group.name}</span></h2>
                     <div className="flex gap-2 items-center mt-2 text-xs sm:text-sm text-gray-600">
                       <span className="flex items-center gap-1">
-                        <MapPinIcon size={14} /> {group.location}
+                        <MapPinIcon size={14} className="text-green-600" /> {group.location}
                       </span>
                       <span className="flex items-center gap-1">
-                        <UsersIcon size={14} /> {group.members} members
+                        <UsersIcon size={14} className="text-amber-600" /> {group.members} members
                       </span>
                     </div>
 
-                    <p className="mt-2 text-gray-700 text-sm line-clamp-3">{group.about}</p>
+                    <p className="mt-2 text-gray-700 text-xs line-clamp-3">{group.about}</p>
 
-                    <div className="mt-3 flex gap-2 justify-center">
-                      <IonButton fill="clear" slot='start' onClick={() => openView(group)}>
+                    <div className="sm:hidden my-2 flex gap-2 justify-center">
+                      {/* For smaller screens */}
+                      <IonButton shape='round' size='small' color={'secondary'} slot='start' onClick={() => openView(group)}>
                         View Details
                       </IonButton>
                       {/* <IonButton color="primary" size="small" onClick={() => joinCluster(group)}>
@@ -194,11 +202,11 @@ const ClusterDirectory: React.FC = () => {
               Page {page} of {totalPages}
             </div>
             <div className="flex items-center gap-2">
-              <IonButton disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
-                Prev
+              <IonButton shape='round' fill='outline' disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
+                <ChevronLeftIcon size={20}  />
               </IonButton>
-              <IonButton disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
-                Next
+              <IonButton shape='round' fill='outline' disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
+                <ChevronRightIcon size={20}  />
               </IonButton>
             </div>
           </div>

@@ -74,8 +74,8 @@ const Profile: React.FC = () => {
           <div className="bg-white rounded-b-lg shadow-md overflow-hidden">
             <div className="p-4 sm:p-6">
               <div className='flex justify-between'>
-                <IonButton color="primary" fill='outline' onClick={() => setShowModal(true)} className="text-sm sm:text-base"><EditIcon size={18} className="mr-1" /> Edit Profile</IonButton>
-                <IonButton color="danger" fill='outline' onClick={handleLogout} className="text-sm sm:text-base"><LogOutIcon size={18} className="mr-1" /> Logout</IonButton>
+                <IonButton color="primary" size='small' fill='outline' onClick={() => setShowModal(true)} className="text-sm sm:text-base"><EditIcon size={18} className="mr-1" /> Edit Profile</IonButton>
+                <IonButton color="danger" size='small' fill='outline' onClick={handleLogout} className="text-sm sm:text-base"><LogOutIcon size={18} className="mr-1" /> Logout</IonButton>
               </div>
 
               {/* About Section */}
