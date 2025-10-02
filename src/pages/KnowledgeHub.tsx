@@ -19,12 +19,14 @@ import {
   ArrowRightIcon,
   Link as LinkIcon,
   PlusIcon,
+  ChevronRight,
+  ChevronLeft,
 } from "lucide-react";
 import TopNav from "../components/TopNav";
 import { useAuth } from "../contexts/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
-const LIMIT = 12;
+const LIMIT = 8;
 
 type KnowledgeItem = {
   id: number | string;
@@ -102,14 +104,14 @@ const KnowledgeHub: React.FC = () => {
                 style={{ width: 260 }}
               />
               <IonButton fill="clear" onClick={() => { setPage(1); load(); }}>
-                <SearchIcon />
+                <SearchIcon className="rounded-full" />
               </IonButton>
               {user?.role === "admin" ? (
                 <IonButton routerLink="/admin/knowledge/create" color="primary" fill="clear"><PlusIcon className="mr-1" /> Add</IonButton>
               ) : null}
             </div>
           </header>
-
+              
           <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {loading ? (
               <div className="col-span-full p-6 text-center">
@@ -143,34 +145,35 @@ const KnowledgeHub: React.FC = () => {
           <div className="flex items-center justify-between mt-4">
             <div className="text-sm text-gray-600">Page {page} of {totalPages}</div>
             <div className="flex gap-2">
-              <IonButton disabled={page <= 1} onClick={() => setPage(p => Math.max(1, p - 1))}>Prev</IonButton>
-              <IonButton disabled={page >= totalPages} onClick={() => setPage(p => Math.min(totalPages, p + 1))}>Next</IonButton>
+              <IonButton fill="outline" shape="round" disabled={page <= 1} onClick={() => setPage(p => Math.max(1, p - 1))}><ChevronLeft size={20} /></IonButton>
+              <IonButton fill="outline" shape="round" disabled={page >= totalPages} onClick={() => setPage(p => Math.min(totalPages, p + 1))}><ChevronRight size={20} /></IonButton>
             </div>
           </div>
         </div>
 
         <IonModal isOpen={viewOpen} onDidDismiss={() => setViewOpen(false)}>
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>{selected?.title}</IonTitle>
-              <IonButtons slot="end"><IonButton onClick={() => setViewOpen(false)}>Close</IonButton></IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <div className="p-4">
-            {selected ? (
-              <>
-                {selected.image ? <img src={selected.image} className="w-full h-48 object-cover rounded mb-3" alt={selected.title} /> : null}
-                <div className="text-sm text-gray-700" dangerouslySetInnerHTML={{ __html: selected.body ?? selected.summary ?? "" }} />
-                <div className="mt-4 text-xs text-gray-500">
-                  <div>Type: {selected.type ?? "Article"}</div>
-                  <div>Author: {selected.author ?? "—"}</div>
-                  <div>Published: {selected.published_at ? new Date(selected.published_at).toLocaleDateString() : "—"}</div>
-                </div>
-              </>
-            ) : (
-              <div className="p-6 text-center text-gray-600">No item selected.</div>
-            )}
-          </div>
+          <IonContent>
+            
+            <div className="p-4">
+              <div className="flex items-center justify-between mb-2 sm:mb-4">
+                <IonTitle className="text-lg" color={"primary"}>{selected?.title}</IonTitle>
+                <IonButton color={"danger"} fill="clear" onClick={() => setViewOpen(false)}>Close</IonButton>
+              </div>
+              {selected ? (
+                <>
+                  {selected.image ? <img src={selected.image} className="w-full h-48 object-cover rounded mb-3" alt={selected.title} /> : null}
+                  <div className="text-sm text-gray-700" dangerouslySetInnerHTML={{ __html: selected.body ?? selected.summary ?? "" }} />
+                  <div className="mt-4 text-xs text-gray-500">
+                    <div>Type: {selected.type ?? "Article"}</div>
+                    <div>Author: {selected.author ?? "—"}</div>
+                    <div>Published: {selected.published_at ? new Date(selected.published_at).toLocaleDateString() : "—"}</div>
+                  </div>
+                </>
+              ) : (
+                <div className="p-6 text-center text-gray-600">No item selected.</div>
+              )}
+            </div>
+          </IonContent>
         </IonModal>
 
         <IonToast isOpen={toast.show} onDidDismiss={() => setToast({ show: false })} message={toast.msg} color={toast.color === "danger" ? "danger" : "success"} duration={2500} />

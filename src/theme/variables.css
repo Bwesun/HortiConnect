@@ -1,5 +1,4 @@
-/* For information on how to create your own theme, please see:
-http://ionicframework.com/docs/theming/ */
+/* For information on how to create your own theme, please see: http://ionicframework.com/docs/theming/ */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
@@ -128,3 +127,4 @@ ion-input, ion-textarea, ion-select, ion-searchbar{
   background: linear-gradient(to right, var(--ion-color-primary), var(--ion-color-secondary));
   color: var(--ion-color-light);
 }
+

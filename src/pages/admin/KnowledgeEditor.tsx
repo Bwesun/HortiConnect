@@ -71,6 +71,7 @@ const KnowledgeEditor: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+
   const handleSave = async () => {
     if (!form.title || form.title.trim() === "") {
       setToast({ show: true, msg: "Title is required", color: "danger" });
@@ -152,6 +153,7 @@ const KnowledgeEditor: React.FC = () => {
               value={form.tags ? (Array.isArray(form.tags) ? form.tags.join(", ") : String(form.tags)) : ""}
               onIonInput={(e: any) => setForm(f => ({ ...f, tags: e.detail?.value }))}
             />
+            <div id="quillcontainer"></div>
             <IonInput
               placeholder="Source URL"
               value={form.source_url ?? ""}
