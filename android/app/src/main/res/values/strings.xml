@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Horti Connect</string>
-    <string name="title_activity_main">Horti Connect</string>
+    <string name="app_name">Agribusiness Cluster</string>
+    <string name="title_activity_main">Agribusiness Cluster</string>
     <string name="package_name">ionic.agriconnect</string>
     <string name="custom_url_scheme">ionic.agriconnect</string>
 </resources>

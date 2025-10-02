@@ -59,6 +59,8 @@ import LogoImage from "./assets/hortiLogo.png";
 import ViewProfile from './pages/ViewProfile';
 import ManageUsers from './pages/admin/Users';
 import ManageClusters from './pages/admin/Clusters';
+import KnowledgeHub from './pages/KnowledgeHub';
+import KnowledgeEditor from './pages/admin/KnowledgeEditor';
 
 
 setupIonicReact();
@@ -109,6 +111,8 @@ const AppContent: React.FC = () => {
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/home" component={Home} />
+        <Route exact path="/knowledgehub" component={KnowledgeHub} />
+
         <PrivateRoute exact path="/clusters" component={ClusterDirectory} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/viewcluster/:id" component={ViewCluster} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/profile" component={Profile} isAuthenticated={isAuthenticated} />
@@ -116,9 +120,15 @@ const AppContent: React.FC = () => {
         <PrivateRoute exact path="/contactseller/:id" component={ContactSeller} isAuthenticated={isAuthenticated} />
         {/* <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} /> */}
         <PrivateRoute exact path="/viewprofile/:id" component={ViewProfile} isAuthenticated={isAuthenticated} />
+
+        {/* ADMIN */}
         <PrivateRoute exact path='/admin/dashboard' component={Dashboard} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path='/admin/users' component={ManageUsers} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path='/admin/clusters' component={ManageClusters} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/admin/knowledge' component={KnowledgeHub} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/admin/knowledge/create' component={KnowledgeEditor} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/admin/knowledge/edit/:id' component={KnowledgeEditor} isAuthenticated={isAuthenticated} />
+
 
 
         <Route exact path="/">

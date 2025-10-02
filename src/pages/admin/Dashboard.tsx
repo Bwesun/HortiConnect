@@ -14,6 +14,8 @@ import {
   LogOutIcon,
   UsersRoundIcon,
   LucideNetwork,
+  LucideBookOpen,
+  CaptionsIcon,
 } from "lucide-react";
 import TopNav from "../../components/TopNav";
 
@@ -207,13 +209,13 @@ const Dashboard: React.FC = () => {
                 Clusters Directory
               </IonButton>
             </Link>
-            {/* <Link to="/admin/users">
-              <IonButton color="light">User Directory</IonButton>
+            <Link to="/knowledgehub">
+              <IonButton color="light"><LucideBookOpen className="mr-2" /> Knowledge Hub</IonButton>
             </Link>
-            <Link to="/admin/reports">
+            {/* <Link to="/admin/reports">
               <IonButton color="medium">Generate Report</IonButton>
             </Link> */}
-            <IonButton color="danger" onClick={() => { navigator.clipboard.writeText(JSON.stringify({ users: stats.users })); }}>Export Snapshot</IonButton>
+            <IonButton color="danger" onClick={() => { navigator.clipboard.writeText(JSON.stringify({ users: stats.users })); }}><CaptionsIcon className="mr-2" /> Export Snapshot</IonButton>
           </div>
 
           {/* Recent Listings */}

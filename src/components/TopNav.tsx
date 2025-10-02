@@ -44,16 +44,16 @@ const TopNav: React.FC = () => {
             <div className=" flex items-center gap-4">
                 <LeafIcon size={28} className="text-amber-600 ml-2" />
                 <IonItem lines="none" routerLink="/home">
-                    <IonText className="text-lg font-semibold" color="primary">HortiConnect</IonText>
+                    <IonText className="text-lg font-semibold" color="primary">Agribusiness Cluster</IonText>
                 </IonItem>
             </div>
             <div className="flex justify-end items-center">
                     <div className="flex">
-                        <IonButton fill="clear" shape="round">
+                        {/* <IonButton fill="clear" shape="round">
                             <BellIcon size={22} />
-                        </IonButton>
+                        </IonButton> */}
                         <IonButton fill="clear" onClick={openWebView} shape="round">
-                            <ArrowRightLeft size={22} className="mr-1" /> SSP
+                            <ArrowRightLeft size={22} className="mr-1" /> <span className="mr-2">SSP</span> 
                         </IonButton>
                     </div>
             </div>

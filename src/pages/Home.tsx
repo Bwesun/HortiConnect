@@ -28,7 +28,7 @@ const Home: React.FC = () => {
             icon: <BookOpenIcon size={20} />,
             description:
                 'Access multimedia resources on horticultural practices and business skills.',
-            link: '',
+            link: '/knowledgehub',
             button_text: 'Learn More'
         },
         {
