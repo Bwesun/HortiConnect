@@ -4,6 +4,7 @@ import { useParams, useLocation, useHistory } from "react-router-dom";
 import TopNav from "../components/TopNav";
 import { MapPinIcon, SendIcon, Users, X } from "lucide-react";
 import { sendOutline } from "ionicons/icons";
+import { useAuth } from "../contexts/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,6 +27,7 @@ type Group = {
 
 const Chat: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const {user} = useAuth();
   const location = useLocation<{ group?: Group } | any>();
   const history = useHistory();
   const [group, setGroup] = useState<Group | null>(location?.state?.group ?? null);
@@ -35,7 +37,7 @@ const Chat: React.FC = () => {
   const [text, setText] = useState("");
   const [toast, setToast] = useState<{ show: boolean; msg?: string; color?: string }>({ show: false });
   const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-  const author = typeof window !== "undefined" ? localStorage.getItem("name") ?? "Anonymous" : "Anonymous";
+  const author = user?.name ?? "Anonymous";
   const pollRef = useRef<number | null>(null);
 
   const load = async () => {
@@ -79,6 +81,7 @@ const Chat: React.FC = () => {
         headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
         body: JSON.stringify({ body: text.trim(), author_name: author }),
       });
+      console.log("Author",author);
       if (!res.ok) {
         const txt = await res.text().catch(() => null);
         throw new Error(txt || "Send failed");
