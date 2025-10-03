@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IonPage, IonContent, IonInput, IonButton, IonSpinner, IonToast } from "@ionic/react";
+import { IonPage, IonContent, IonInput, IonButton, IonSpinner, IonToast, IonText, IonIcon } from "@ionic/react";
 import { useParams, useLocation, useHistory } from "react-router-dom";
 import TopNav from "../components/TopNav";
-import { MapPinIcon } from "lucide-react";
+import { MapPinIcon, SendIcon, Users, X } from "lucide-react";
+import { sendOutline } from "ionicons/icons";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -94,24 +95,24 @@ const Chat: React.FC = () => {
 
   return (
     <IonPage>
-      <IonContent className="bg-gray-100">
+      <IonContent className="bg-gray-100" fullscreen>
         <TopNav />
         <div className="max-w-3xl mx-auto p-4">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between gap-2 mb-4">
             <div>
-              <h2 className="text-lg font-semibold text-gray-800">{group?.name ?? `Group ${id}`}</h2>
-              <p className="text-xs text-gray-600">{group?.about ?? "Group chat"}</p>
+              <IonText className="text-lg font-semibold text-gray-800">{group?.name ?? `Group ${id}`}</IonText>
+              <p className="text-xs ml-2 flex-wrap text-gray-600">{group?.about ?? "Group chat"}</p>
             </div>
-            <div className="text-sm text-gray-500"><MapPinIcon /> {group?.members ?? 0}</div>
+            <div className="text-sm text-amber-600 flex gap-1"><Users size={16} className="" /> {group?.members ?? 0}</div>
           </div>
 
           <div className="bg-white rounded-lg shadow p-4 mb-4 h-[60vh] overflow-auto flex flex-col">
             {loading ? <div className="flex-1 flex items-center justify-center"><IonSpinner /></div> : (
               <div className="flex-1 space-y-3">
                 {messages.length === 0 ? <div className="text-center text-gray-500 p-6">No messages yet.</div> : messages.map(m => (
-                  <div key={m.id} className="p-2 rounded border border-gray-100">
-                    <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
-                      <div className="font-medium text-gray-700">{m.author_name ?? "Unknown"}</div>
+                  <div key={m.id} className="p-1 sm:p-2 rounded border border-gray-100">
+                    <div className="flex items-center justify-between text-xs text-gray-500">
+                      <div className="font-medium text-green-600">{m.author_name ?? "Unknown"}</div>
                       <div>{m.created_at ? new Date(m.created_at).toLocaleTimeString() : ""}</div>
                     </div>
                     <div className="text-sm text-gray-800">{m.body}</div>
@@ -121,8 +122,9 @@ const Chat: React.FC = () => {
             )}
             <div className="mt-3 pt-3 border-t flex gap-2">
               <IonInput value={text} placeholder="Type a message..." onIonInput={(e: any) => setText(e.detail?.value ?? "")} />
-              <IonButton onClick={send} disabled={sending}>{sending ? <IonSpinner /> : "Send"}</IonButton>
-              <IonButton fill="clear" onClick={() => history.push("/communication")}>Close</IonButton>
+              <IonButton fill="clear" color={"primary"} shape="round" onClick={send} disabled={sending}>{sending ? <IonSpinner name="crescent" /> : (
+                <IonIcon slot="icon-only" icon={sendOutline} />
+              )}</IonButton>
             </div>
           </div>
         </div>

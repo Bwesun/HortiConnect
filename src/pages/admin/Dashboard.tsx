@@ -212,9 +212,9 @@ const Dashboard: React.FC = () => {
             <Link to="/knowledgehub">
               <IonButton color="light"><LucideBookOpen className="mr-2" /> Knowledge Hub</IonButton>
             </Link>
-            {/* <Link to="/admin/reports">
-              <IonButton color="medium">Generate Report</IonButton>
-            </Link> */}
+            <Link to="/admin/groups">
+              <IonButton color="medium"><UsersIcon className="mr-2" /> Manage Groups</IonButton>
+            </Link>
             <IonButton color="danger" onClick={() => { navigator.clipboard.writeText(JSON.stringify({ users: stats.users })); }}><CaptionsIcon className="mr-2" /> Export Snapshot</IonButton>
           </div>
 

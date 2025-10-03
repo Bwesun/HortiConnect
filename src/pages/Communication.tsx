@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { IonPage, IonContent, IonButton, IonSpinner, IonToast } from "@ionic/react";
-import { UsersIcon, MessageSquare, MessagesSquare } from "lucide-react";
+import { UsersIcon, MessageSquare, MessagesSquare, Plus, CogIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import TopNav from "../components/TopNav";
+import { useAuth } from "../contexts/AuthContext";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -20,6 +21,7 @@ const Communication: React.FC = () => {
   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<{ show: boolean; msg?: string; color?: string }>({ show: false });
+  const {user} = useAuth();
 
   const load = async () => {
     setLoading(true);
@@ -48,9 +50,11 @@ const Communication: React.FC = () => {
               <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2"><MessagesSquare /> Communication Groups</h1>
               <p className="text-sm text-gray-600">Groups created by admin for conversations and alerts.</p>
             </div>
-            <div>
-              <IonButton routerLink="/admin/groups" fill="clear">Manage</IonButton>
-            </div>
+            {user?.role === 'admin' && (
+              <div>
+                <IonButton routerLink="/admin/groups" fill="clear"><CogIcon size={20} className="mr-2"/> Manage</IonButton>
+              </div>
+            )}
           </header>
 
           {loading ? (

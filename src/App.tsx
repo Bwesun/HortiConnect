@@ -62,6 +62,8 @@ import ManageClusters from './pages/admin/Clusters';
 import KnowledgeHub from './pages/KnowledgeHub';
 import KnowledgeEditor from './pages/admin/KnowledgeEditor';
 import Communication from './pages/Communication';
+import ManageGroups from './pages/admin/Groups';
+import Chat from './pages/Chat';
 
 
 setupIonicReact();
@@ -122,6 +124,7 @@ const AppContent: React.FC = () => {
         {/* <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} /> */}
         <PrivateRoute exact path="/viewprofile/:id" component={ViewProfile} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path='/communication' component={Communication} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/chat/:id' component={Chat} isAuthenticated={isAuthenticated} />
 
         {/* ADMIN */}
         <PrivateRoute exact path='/admin/dashboard' component={Dashboard} isAuthenticated={isAuthenticated} />
@@ -130,6 +133,7 @@ const AppContent: React.FC = () => {
         <PrivateRoute exact path='/admin/knowledge' component={KnowledgeHub} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path='/admin/knowledge/create' component={KnowledgeEditor} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path='/admin/knowledge/edit/:id' component={KnowledgeEditor} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/admin/groups' component={ManageGroups} isAuthenticated={isAuthenticated} />
 
 
 
