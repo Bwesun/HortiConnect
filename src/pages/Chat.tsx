@@ -130,7 +130,10 @@ const Chat: React.FC = () => {
           {/* Messages */}
           <div ref={containerRef} className="bg-white rounded-lg shadow p-4 mb-4 h-[80vh] overflow-auto flex flex-col">
             {loading ? (
-              <div className="flex-1 flex items-center justify-center"><IonSpinner /></div>
+              <div className="flex-1 flex items-center justify-center">
+                <IonSpinner name="crescent" color={"primary"} />
+                <span className="ml-2">Loading messages...</span>
+              </div>
             ) : (
               <div className="flex-1 space-y-3">
                 {messages.length === 0 ? (
