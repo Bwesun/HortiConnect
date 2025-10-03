@@ -61,6 +61,7 @@ import ManageUsers from './pages/admin/Users';
 import ManageClusters from './pages/admin/Clusters';
 import KnowledgeHub from './pages/KnowledgeHub';
 import KnowledgeEditor from './pages/admin/KnowledgeEditor';
+import Communication from './pages/Communication';
 
 
 setupIonicReact();
@@ -120,6 +121,7 @@ const AppContent: React.FC = () => {
         <PrivateRoute exact path="/contactseller/:id" component={ContactSeller} isAuthenticated={isAuthenticated} />
         {/* <PrivateRoute exact path="/dashboard" component={Dashboard} isAuthenticated={isAuthenticated} /> */}
         <PrivateRoute exact path="/viewprofile/:id" component={ViewProfile} isAuthenticated={isAuthenticated} />
+        <PrivateRoute exact path='/communication' component={Communication} isAuthenticated={isAuthenticated} />
 
         {/* ADMIN */}
         <PrivateRoute exact path='/admin/dashboard' component={Dashboard} isAuthenticated={isAuthenticated} />

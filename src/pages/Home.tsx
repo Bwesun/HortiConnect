@@ -36,7 +36,7 @@ const Home: React.FC = () => {
             icon: <MessagesSquare size={20} />,
             description:
                 'Engage in chat groups, receive alerts, and view event calendars.',
-            link: '',
+            link: '/communication',
             button_text: 'Engage'
         },
         // {

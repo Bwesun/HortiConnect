@@ -1,0 +1,136 @@
+import React, { useEffect, useRef, useState } from "react";
+import { IonPage, IonContent, IonInput, IonButton, IonSpinner, IonToast } from "@ionic/react";
+import { useParams, useLocation, useHistory } from "react-router-dom";
+import TopNav from "../components/TopNav";
+import { MapPinIcon } from "lucide-react";
+
+const API_URL = import.meta.env.VITE_API_URL;
+
+type Message = {
+  id?: number;
+  group_id?: number | string;
+  user_id?: number | string | null;
+  author_name?: string;
+  body: string;
+  created_at?: string;
+};
+
+type Group = {
+  id?: number | string;
+  name?: string;
+  about?: string;
+  members?: number;
+  image?: string;
+};
+
+const Chat: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const location = useLocation<{ group?: Group } | any>();
+  const history = useHistory();
+  const [group, setGroup] = useState<Group | null>(location?.state?.group ?? null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [loading, setLoading] = useState<boolean>(!Boolean(location?.state?.group));
+  const [sending, setSending] = useState(false);
+  const [text, setText] = useState("");
+  const [toast, setToast] = useState<{ show: boolean; msg?: string; color?: string }>({ show: false });
+  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+  const author = typeof window !== "undefined" ? localStorage.getItem("name") ?? "Anonymous" : "Anonymous";
+  const pollRef = useRef<number | null>(null);
+
+  const load = async () => {
+    try {
+      const res = await fetch(`${API_URL}/groups/${encodeURIComponent(id)}`);
+      if (!res.ok) throw new Error("Failed to load group");
+      const payload = await res.json();
+      setGroup(payload?.data ?? null);
+    } catch (err) {
+      console.warn("group load failed, continuing");
+    }
+    try {
+      const res2 = await fetch(`${API_URL}/groups/${encodeURIComponent(id)}/messages`);
+      if (!res2.ok) throw new Error("Failed to load messages");
+      const p2 = await res2.json();
+      setMessages(p2?.data ?? []);
+    } catch (err: any) {
+      console.error(err);
+      setToast({ show: true, msg: "Unable to load messages", color: "danger" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    load();
+    // simple polling for messages
+    pollRef.current = window.setInterval(() => {
+      fetch(`${API_URL}/groups/${encodeURIComponent(id)}/messages`).then(r => r.ok ? r.json() : null).then((p: any) => { if (p?.data) setMessages(p.data); }).catch(() => {});
+    }, 4000) as unknown as number;
+    return () => { if (pollRef.current) clearInterval(pollRef.current); };
+    // eslint-disable-next-line
+  }, [id]);
+
+  const send = async () => {
+    if (!text.trim()) return;
+    setSending(true);
+    try {
+      const res = await fetch(`${API_URL}/groups/${encodeURIComponent(id)}/messages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+        body: JSON.stringify({ body: text.trim(), author_name: author }),
+      });
+      if (!res.ok) {
+        const txt = await res.text().catch(() => null);
+        throw new Error(txt || "Send failed");
+      }
+      setText("");
+      // append (optimistic) or reload
+      await load();
+    } catch (err: any) {
+      setToast({ show: true, msg: err?.message ?? "Send failed", color: "danger" });
+    } finally {
+      setSending(false);
+    }
+  };
+
+  return (
+    <IonPage>
+      <IonContent className="bg-gray-100">
+        <TopNav />
+        <div className="max-w-3xl mx-auto p-4">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-800">{group?.name ?? `Group ${id}`}</h2>
+              <p className="text-xs text-gray-600">{group?.about ?? "Group chat"}</p>
+            </div>
+            <div className="text-sm text-gray-500"><MapPinIcon /> {group?.members ?? 0}</div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-4 mb-4 h-[60vh] overflow-auto flex flex-col">
+            {loading ? <div className="flex-1 flex items-center justify-center"><IonSpinner /></div> : (
+              <div className="flex-1 space-y-3">
+                {messages.length === 0 ? <div className="text-center text-gray-500 p-6">No messages yet.</div> : messages.map(m => (
+                  <div key={m.id} className="p-2 rounded border border-gray-100">
+                    <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                      <div className="font-medium text-gray-700">{m.author_name ?? "Unknown"}</div>
+                      <div>{m.created_at ? new Date(m.created_at).toLocaleTimeString() : ""}</div>
+                    </div>
+                    <div className="text-sm text-gray-800">{m.body}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="mt-3 pt-3 border-t flex gap-2">
+              <IonInput value={text} placeholder="Type a message..." onIonInput={(e: any) => setText(e.detail?.value ?? "")} />
+              <IonButton onClick={send} disabled={sending}>{sending ? <IonSpinner /> : "Send"}</IonButton>
+              <IonButton fill="clear" onClick={() => history.push("/communication")}>Close</IonButton>
+            </div>
+          </div>
+        </div>
+
+        <IonToast isOpen={toast.show} onDidDismiss={() => setToast({ show: false })} message={toast.msg} color={toast.color === "danger" ? "danger" : "success"} duration={2500} />
+      </IonContent>
+    </IonPage>
+  );
+};
+
+export default Chat;
