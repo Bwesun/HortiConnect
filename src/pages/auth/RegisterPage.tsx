@@ -80,9 +80,9 @@ const RegisterPage: React.FC = () => {
     <IonPage>
       <IonContent fullscreen>
         <div className="max-w-2xl mx-auto sm:my-10 p-6  bg-white h-full sm:h-auto shadow">
-          <IonImg src={LogoImage} alt="HortiConnect Logo" className="mx-auto h-44" />
+          <IonImg src={LogoImage} alt="ABC Logo" className="mx-auto h-44" />
       <h1 className="text-2xl font-bold text-center text-green-800 mb-6">
-        Create HortiConnect Account
+        Create Account
       </h1>
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 flex items-center">

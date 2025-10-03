@@ -168,9 +168,9 @@ const ClusterDirectory: React.FC = () => {
             ) : (
               clusters.map((group, index) => (
                 <div key={group.id ?? index} className="bg-white rounded-lg shadow-md overflow-hidden">
-                  {/* <IonImg src={group.image ?? hortiLogo} alt={group.name} className="w-full h-28 sm:h-40 object-cover" /> */}
+                  {/* <IonImg src={group.image ?? hortiLogo} alt={group.name} className="w-full h-28 sm:h-40 bg-black/70 object-cover" /> */}
                   <div className="px-3 py-1 sm:p-4 ">
-                    <h2><span className="text-lg sm:text-xl font-semibold text-gray-800">{group.name}</span></h2>
+                    <span className="text-lg sm:text-xl font-semibold text-gray-800">{group.name}</span>
                     <div className="flex gap-2 items-center mt-2 text-xs sm:text-sm text-gray-600">
                       <span className="flex items-center gap-1">
                         <MapPinIcon size={14} className="text-green-600" /> {group.location}
@@ -182,9 +182,8 @@ const ClusterDirectory: React.FC = () => {
 
                     <p className="mt-2 text-gray-700 text-xs line-clamp-3">{group.about}</p>
 
-                    <div className="sm:hidden my-2 flex gap-2 justify-center">
-                      {/* For smaller screens */}
-                      <IonButton shape='round' size='small' color={'secondary'} slot='start' onClick={() => openView(group)}>
+                    <div className=" my-2 flex gap-2 justify-end">
+                      <IonButton shape='round' size='small' color={'primary'} fill='clear' slot='start' onClick={() => openView(group)}>
                         View Details
                       </IonButton>
                       {/* <IonButton color="primary" size="small" onClick={() => joinCluster(group)}>

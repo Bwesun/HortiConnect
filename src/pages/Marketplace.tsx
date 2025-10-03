@@ -213,6 +213,13 @@ const Marketplace: React.FC = () => {
     }
   };
   
+  // format price with commas
+  const formatCurrency = (value: string) => {
+    // Remove any non-numeric characters except for decimal point
+    const numericValue = value.replace(/[^0-9.]/g, '');
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  };
+
   return (
     <IonPage>
       <IonContent className="" fullscreen>
@@ -225,11 +232,11 @@ const Marketplace: React.FC = () => {
         >
           <IonSegmentButton value="buy">
             <ShoppingBag size={18} className="text-amber-700" />
-            <IonLabel color={"primary"}>Buy Products & Services</IonLabel>
+            <IonLabel className="text-xs sm:text-sm" color={"primary"}>Buy Products & Services</IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="sell">
             <Tag size={18} className="text-amber-700" />
-            <IonLabel color="primary">Sell Requests</IonLabel>
+            <IonLabel className="text-xs sm:text-sm" color="primary">Sell Requests</IonLabel>
           </IonSegmentButton>
         </IonSegment>
 
@@ -284,7 +291,7 @@ const Marketplace: React.FC = () => {
                                 </span>
 
                                 <p className="text-sm sm:text-lg font-semibold text-gray-800 mt-1">
-                                {listing.price}
+                                ₦{formatCurrency(listing.price)}
                                 </p>
 
                                 <div className="flex items-center text-gray-500 text-sm  mt-1">

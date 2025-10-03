@@ -1,8 +1,9 @@
 import { IonButton, IonIcon, IonImg, IonItem, IonText } from "@ionic/react";
 import React from "react";
 import Logo from '../../public/favicon.png'
-import { ArrowRightLeft, BellIcon, ChevronsRight, LeafIcon, LifeBuoy } from "lucide-react";
+import { ArrowRightLeft, BellIcon, ChevronsRight, LeafIcon, LifeBuoy, RefreshCw, User2Icon } from "lucide-react";
 import { InAppBrowser, DefaultWebViewOptions, ToolbarPosition, iOSViewStyle, iOSAnimation } from '@capacitor/inappbrowser';
+import { person } from "ionicons/icons";
 
 const TopNav: React.FC = () => {
 
@@ -38,13 +39,13 @@ const TopNav: React.FC = () => {
         });
     }
     return ( 
-        <div className="flex justify-between items-center pl-2 my-2 md:px-8 lg:px-18" style={{
+        <div className="flex justify-between items-center pl-1 sm:px-4 my-2 md:px-8 lg:px-18" style={{
             background: 'var(--ion-color-light)'
         }}>
-            <div className=" flex items-center gap-4">
-                <LeafIcon size={28} className="text-amber-600 ml-2" />
+            <div className=" flex items-center justify-between gap-4">
+                {/* <LeafIcon size={28} className="text-amber-600 ml-2" /> */}
                 <IonItem lines="none" routerLink="/home">
-                    <IonText className="text-lg font-semibold" color="primary">Agribusiness Cluster</IonText>
+                    <IonText className="text-sm font-semibold" color="primary">Agribusiness Cluster</IonText>
                 </IonItem>
             </div>
             <div className="flex justify-end items-center">
@@ -52,8 +53,11 @@ const TopNav: React.FC = () => {
                         {/* <IonButton fill="clear" shape="round">
                             <BellIcon size={22} />
                         </IonButton> */}
-                        <IonButton fill="clear" onClick={openWebView} shape="round">
-                            <ArrowRightLeft size={22} className="mr-1" /> <span className="mr-2">SSP</span> 
+                        <IonButton size="small" fill="clear" onClick={openWebView} shape="round">
+                            <RefreshCw size={22} className="mr-1" /> <span className="mr-2 text-sm">SSP</span> 
+                        </IonButton>
+                        <IonButton routerLink="/profile" shape="round" fill="clear">
+                            <IonIcon slot="icon-only" icon={person} size="small" />
                         </IonButton>
                     </div>
             </div>
