@@ -207,7 +207,7 @@ const Marketplace: React.FC = () => {
       setIsModalOpen(false);
     } catch (err: any) {
       console.error(err);
-      setErrorMsg(err?.message ?? "Failed to create listing");
+      setErrorMsg(err?.message.message ?? "Failed to create listing");
     } finally {
       setIsSubmitting(false);
     }

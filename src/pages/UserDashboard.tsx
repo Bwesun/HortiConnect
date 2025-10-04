@@ -52,7 +52,7 @@ const chartOptions = {
         color: "#333",
         font: {
           size: 14,
-          weight: 600, // ✅ Use a number for numeric font weights
+          weight: 600, // Use a number for numeric font weights
         },
       },
     },

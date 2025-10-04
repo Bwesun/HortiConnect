@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IonPage, IonContent, IonButton, IonSpinner, IonToast } from "@ionic/react";
+import { IonPage, IonContent, IonButton, IonSpinner, IonToast, IonText } from "@ionic/react";
 import { UsersIcon, MessageSquare, MessagesSquare, Plus, CogIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import TopNav from "../components/TopNav";
@@ -47,18 +47,21 @@ const Communication: React.FC = () => {
         <div className="max-w-6xl mx-auto p-4">
           <header className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2"><MessagesSquare /> Communication Groups</h1>
+              <IonText color={"primary"} className="text-lg font-bold text-gray-800 flex items-center gap-2"><MessagesSquare /> Communication Groups</IonText>
               <p className="text-sm text-gray-600">Groups created by admin for conversations and alerts.</p>
             </div>
             {user?.role === 'admin' && (
               <div>
-                <IonButton routerLink="/admin/groups" fill="clear"><CogIcon size={20} className="mr-2"/> Manage</IonButton>
+                <IonButton size="small" routerLink="/admin/groups" fill="clear"><CogIcon size={16} className="mr-2"/> Manage</IonButton>
               </div>
             )}
           </header>
 
           {loading ? (
-            <div className="p-8 text-center"><IonSpinner /></div>
+            <div className="p-8 text-center flex flex-col items-center justify-center">
+              <IonSpinner name="dots" color={"primary"} />
+              <p className="text-sm text-gray-600 mt-2">Loading groups...</p>
+            </div>
           ) : groups.length === 0 ? (
             <div className="p-6 text-center text-gray-600">No groups yet.</div>
           ) : (
@@ -70,7 +73,7 @@ const Communication: React.FC = () => {
                       <UsersIcon size={18} />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold text-gray-800">{g.name}</h3>
+                      <IonText className="font-semibold text-gray-800">{g.name}</IonText>
                       <p className="text-sm text-gray-600 line-clamp-2">{g.about}</p>
                     </div>
                   </div>
@@ -78,7 +81,7 @@ const Communication: React.FC = () => {
                   <div className="mt-4 flex items-center justify-between">
                     <div className="text-xs text-gray-500">{g.members ?? 0} members</div>
                     <div className="flex gap-2">
-                      <Link to={{ pathname: `/chat/${g.id}`, state: { group: g } }} className="inline-flex items-center text-[#f8982a] font-medium">
+                      <Link to={{ pathname: `/chat/${g.id}`, state: { group: g } }} className="text-sm inline-flex items-center text-[#f8982a] font-medium">
                         Open Chat
                       </Link>
                     </div>

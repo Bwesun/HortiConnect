@@ -62,7 +62,7 @@ const ManageClusters: React.FC = () => {
       setClusters(p?.data ?? []);
       setTotalPages(Math.max(1, Math.ceil((p?.total ?? 0) / LIMIT)));
     } catch (err: any) {
-      setToast({ show: true, msg: err?.message ?? "Load failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Load failed", color: "danger" });
     } finally {
       setLoading(false);
     }
@@ -94,7 +94,7 @@ const ManageClusters: React.FC = () => {
       load();
     } catch (err: any) {
         console.error(err);
-      setToast({ show: true, msg: err?.message ?? "Save failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Save failed", color: "danger" });
     }
   };
 
@@ -109,7 +109,7 @@ const ManageClusters: React.FC = () => {
       setToast({ show: true, msg: "Deleted", color: "success" });
       load();
     } catch (err: any) {
-      setToast({ show: true, msg: err?.message ?? "Delete failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Delete failed", color: "danger" });
     }
   };
 

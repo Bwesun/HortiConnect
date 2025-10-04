@@ -98,7 +98,7 @@ const KnowledgeEditor: React.FC = () => {
       history.push("/admin/knowledge");
     } catch (err: any) {
       console.error(err);
-      setToast({ show: true, msg: err?.message ?? "Update failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Update failed", color: "danger" });
     } finally {
       setSaving(false);
     }

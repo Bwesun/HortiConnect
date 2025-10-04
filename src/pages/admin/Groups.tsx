@@ -100,7 +100,7 @@ const ManageGroups: React.FC = () => {
       await load();
     } catch (err: any) {
       console.error(err);
-      setToast({ show: true, msg: err?.message ?? "Save failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Save failed", color: "danger" });
     } finally {
       setSaving(false);
     }
@@ -118,7 +118,7 @@ const ManageGroups: React.FC = () => {
       await load();
     } catch (err: any) {
       console.error(err);
-      setToast({ show: true, msg: err?.message ?? "Delete failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Delete failed", color: "danger" });
     }
   };
 

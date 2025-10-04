@@ -64,7 +64,7 @@ const ManageUsers: React.FC = () => {
       setTotalPages(Math.max(1, Math.ceil((payload?.total ?? 0) / LIMIT)));
     } catch (err: any) {
       console.error(err);
-      setToast({ show: true, msg: err?.message ?? "Error loading users", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Error loading users", color: "danger" });
     } finally {
       setLoading(false);
     }
@@ -86,7 +86,7 @@ const ManageUsers: React.FC = () => {
       setToast({ show: true, msg: "Role updated", color: "success" });
       fetchUsers();
     } catch (err: any) {
-      setToast({ show: true, msg: err?.message ?? "Update failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Update failed", color: "danger" });
     }
   };
 
@@ -105,7 +105,7 @@ const ManageUsers: React.FC = () => {
       // refresh page (keep same page if possible)
       fetchUsers();
     } catch (err: any) {
-      setToast({ show: true, msg: err?.message ?? "Delete failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Delete failed", color: "danger" });
     }
   };
 

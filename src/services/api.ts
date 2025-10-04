@@ -44,8 +44,6 @@ class ApiService {
   }) {
     try{
       const response = await axios.post(`${API_BASE_URL}/auth/register`, userData);
-      // console.log("Registration response:", response.data); // Debug log
-      // console.log("User data sent:", userData); // Debug log
       return response.data;
     } catch (error: any) {
       if (error.response) {

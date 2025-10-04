@@ -65,7 +65,7 @@ const KnowledgeHub: React.FC = () => {
       setTotalPages(Math.max(1, Math.ceil((payload?.total ?? 0) / LIMIT)));
     } catch (err: any) {
       console.error(err);
-      setToast({ show: true, msg: err?.message ?? "Load failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Load failed", color: "danger" });
     } finally {
       setLoading(false);
     }

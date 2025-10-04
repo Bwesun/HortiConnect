@@ -111,7 +111,7 @@ const ViewCluster: React.FC = () => {
       }
       setToast({ show: true, msg: 'Join request sent', color: 'success' });
     } catch (err: any) {
-      setToast({ show: true, msg: err?.message ?? 'Join request failed', color: 'danger' });
+      setToast({ show: true, msg: err?.message.message ?? 'Join request failed', color: 'danger' });
     }
   };
 

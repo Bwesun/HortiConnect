@@ -108,7 +108,7 @@ const Chat: React.FC = () => {
       // reload messages (will trigger scroll)
       await load();
     } catch (err: any) {
-      setToast({ show: true, msg: err?.message ?? "Send failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Send failed", color: "danger" });
     } finally {
       setSending(false);
     }

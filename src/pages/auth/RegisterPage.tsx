@@ -69,7 +69,7 @@ const RegisterPage: React.FC = () => {
       setToast({ show: true, msg: "Registration successful!", color: "success" });
       history.push("/home");
     } catch (err: any) {
-      setToast({ show: true, msg: err?.message ?? "Registrattion failed", color: "danger" });
+      setToast({ show: true, msg: err?.message.message ?? "Registration failed", color: "danger" });
       setError(err.message || "Failed to register. Please try again.");
     } finally {
       setIsLoading(false);

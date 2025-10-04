@@ -48,7 +48,7 @@ const LoginPage: React.FC = () => {
       setLoading(false)
     } catch (err: any) {
       // console.log(err);
-      setToastMessage(err.message || "Failed to login. Please check your credentials.");
+      setToastMessage(err.message.message || "Failed to login. Please check your credentials.");
       setShowToast(true);
       setLoading(false)
       // setError(err.message || "Failed to login. Please check your credentials.");

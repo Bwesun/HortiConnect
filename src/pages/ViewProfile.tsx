@@ -51,8 +51,8 @@ const ViewProfile: React.FC = () => {
         setFetchedUser(payload?.data ?? payload?.user ?? null);
       } catch (err: any) {
         console.error(err);
-        setError(err?.message ?? 'Failed to load profile');
-        setToast({ show: true, msg: err?.message ?? 'Failed to load profile' });
+        setError(err?.message.message ?? 'Failed to load profile');
+        setToast({ show: true, msg: err?.message.message ?? 'Failed to load profile' });
       } finally {
         setLoadingUser(false);
       }
