@@ -21,6 +21,7 @@ import {
   PlusIcon,
   ChevronRight,
   ChevronLeft,
+  X,
 } from "lucide-react";
 import TopNav from "../components/TopNav";
 import { useAuth } from "../contexts/AuthContext";
@@ -80,6 +81,19 @@ const KnowledgeHub: React.FC = () => {
     setSelected(it);
     setViewOpen(true);
   };
+
+  // Helper component to format content with line breaks
+  function FormattedContent( { content }: { content: string } ) {
+    // Replace \n with <br />
+    const formatted = content.replace(/\n/g, "<br />");
+
+    return (
+      <div
+        className="mt-2 text-gray-700 text-sm leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: formatted }}
+      />
+    );
+  }
 
   return (
     <IonPage>
@@ -157,16 +171,35 @@ const KnowledgeHub: React.FC = () => {
             <div className="p-4">
               <div className="flex items-center justify-between mb-2 sm:mb-4">
                 <IonTitle className="text-lg" color={"primary"}>{selected?.title}</IonTitle>
-                <IonButton color={"danger"} fill="clear" onClick={() => setViewOpen(false)}>Close</IonButton>
+                <IonButton color={"danger"} fill="clear" onClick={() => setViewOpen(false)}><X size={20} /></IonButton>
               </div>
               {selected ? (
                 <>
-                  {selected.image ? <img src={selected.image} className="w-full h-48 object-cover rounded mb-3" alt={selected.title} /> : null}
-                  <div className="text-sm text-gray-700" dangerouslySetInnerHTML={{ __html: selected.body ?? selected.summary ?? "" }} />
+                  {selected.image ? <img src={selected.image} className="w-full h-48 object-cover rounded mb-3" alt={selected.title} /> : "Unknown Topic"}
+                  <IonText className="text-lg font-semibold text-gray-800">{selected.title}</IonText>
+                  <FormattedContent content={selected.body ?? ""} />
+                  <div className="py-2 border-t border-gray-200 mt-1 sm:mt-4">
+                    <span className="text-sm text-gray-600">Tags:</span>
+                    {selected.tags && selected.tags.length > 0 ? selected.tags.map((t) => (
+                      <span key={t} className="inline-block bg-gray-200 text-gray-700 text-xs px-2 py-0.5 rounded mr-1 mt-2">{t}</span>
+                    )) : 'No tags available.'}
+                  </div>
                   <div className="mt-4 text-xs text-gray-500">
                     <div>Type: {selected.type ?? "Article"}</div>
                     <div>Author: {selected.author ?? "—"}</div>
                     <div>Published: {selected.published_at ? new Date(selected.published_at).toLocaleDateString() : "—"}</div>
+                  </div>
+                  <div className="mt-4 flex justify-between gap-2">
+                    {selected.source_url ? (
+                      <a href={selected.source_url} target="_blank" rel="noreferrer">
+                        <IonButton size="small" color={"primary"} fill="outline">Read from source <ChevronRight className="ml-1" size={20} /></IonButton>
+                      </a>
+                    ) : null}
+                    
+                    <IonButton size="small" color={"danger"}  onClick={() => setViewOpen(false)}><X className="mr-1" size={20} /> Close</IonButton>
+                  </div>
+                  <div className="mt-4 flex justify-end">
+                    
                   </div>
                 </>
               ) : (

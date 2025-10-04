@@ -1,7 +1,7 @@
 import { IonButton, IonIcon, IonImg, IonItem, IonText } from "@ionic/react";
 import React from "react";
 import Logo from '../../public/favicon.png'
-import { ArrowRightLeft, BellIcon, ChevronsRight, LeafIcon, LifeBuoy, RefreshCw, User2Icon } from "lucide-react";
+import { ArrowRightLeft, BellIcon, ChevronsRight, Home, LeafIcon, LifeBuoy, RefreshCw, User2Icon } from "lucide-react";
 import { InAppBrowser, DefaultWebViewOptions, ToolbarPosition, iOSViewStyle, iOSAnimation } from '@capacitor/inappbrowser';
 import { person } from "ionicons/icons";
 
@@ -44,7 +44,9 @@ const TopNav: React.FC = () => {
         }}>
             <div className=" flex items-center justify-between gap-4">
                 {/* <LeafIcon size={28} className="text-amber-600 ml-2" /> */}
-                <IonItem lines="none" routerLink="/home">
+                    
+                <IonItem lines="none" routerLink="/home" className="flex items-center gap-4">
+                    <Home size={20} className="text-amber-600 mr-1" />
                     <IonText className="text-sm font-semibold" color="primary">Agribusiness Cluster</IonText>
                 </IonItem>
             </div>
