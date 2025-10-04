@@ -14,7 +14,7 @@ const TopNav: React.FC = () => {
             options: {
                 showURL: false,
                 showToolbar: true,
-                closeButtonText: 'Exit',
+                closeButtonText: 'Close',
                 showNavigationButtons: false,
                 clearCache: true,
                 clearSessionCache: false,
