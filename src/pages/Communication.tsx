@@ -79,7 +79,7 @@ const Communication: React.FC = () => {
                   </div>
 
                   <div className="mt-4 flex items-center justify-between">
-                    <div className="text-xs text-gray-500">{g.members ?? 0} members</div>
+                    <div className="text-xs text-gray-500">{g.members ?? 0} </div>
                     <div className="flex gap-2">
                       <Link to={{ pathname: `/chat/${g.id}`, state: { group: g } }} className="text-sm inline-flex items-center text-[#f8982a] font-medium">
                         Open Chat
