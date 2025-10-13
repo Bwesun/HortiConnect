@@ -39,7 +39,7 @@ const TopNav: React.FC = () => {
         });
     }
     return ( 
-        <div className="flex justify-between items-center pl-1 sm:px-4 my-2 md:px-8 lg:px-18" style={{
+        <div className="flex justify-between items-center pl-1 sm:px-4 my-4 md:px-8 lg:px-18" style={{
             background: 'var(--ion-color-light)'
         }}>
             <div className=" flex items-center justify-between gap-4">
