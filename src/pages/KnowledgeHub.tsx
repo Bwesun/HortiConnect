@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import TopNav from "../components/TopNav";
 import { useAuth } from "../contexts/AuthContext";
+import { InAppBrowser, ToolbarPosition, iOSViewStyle, iOSAnimation } from "@capacitor/inappbrowser";
 
 const API_URL = import.meta.env.VITE_API_URL;
 const LIMIT = 8;
@@ -53,6 +54,7 @@ const KnowledgeHub: React.FC = () => {
   const [viewOpen, setViewOpen] = useState(false);
   const [toast, setToast] = useState<{ show: boolean; msg?: string; color?: string }>({ show: false });
   const { user } = useAuth();
+  const [currentURL, setCurrentURL] = useState(window.location.href);
 
   const load = async () => {
     setLoading(true);
@@ -79,13 +81,15 @@ const KnowledgeHub: React.FC = () => {
 
   const openView = (it: KnowledgeItem) => {
     setSelected(it);
+    setCurrentURL(it.source_url ?? window.location.href);
+    console.log("Current URL set to:", currentURL);
     setViewOpen(true);
   };
 
   // Helper component to format content with line breaks
   function FormattedContent( { content }: { content: string } ) {
     // Replace \n with <br />
-    const formatted = content.replace(/\n/g, "<br />");
+    const formatted = content.replace(/\\n/g, "<br />");
 
     return (
       <div
@@ -94,6 +98,37 @@ const KnowledgeHub: React.FC = () => {
       />
     );
   }
+
+  const openWebView = async () => {
+        await InAppBrowser.openInWebView({
+            url: `${currentURL}`,
+            options: {
+                showURL: false,
+                showToolbar: true,
+                closeButtonText: 'Close',
+                showNavigationButtons: false,
+                clearCache: true,
+                clearSessionCache: false,
+                mediaPlaybackRequiresUserAction: false,
+                leftToRight: false,
+                toolbarPosition: ToolbarPosition.BOTTOM,
+                android: {
+                    hardwareBack: true,
+                    allowZoom: false,
+                    pauseMedia: false,
+                },
+                iOS: {
+                    allowOverScroll: false,
+                    enableViewportScale: false,
+                    allowInLineMediaPlayback: false,
+                    surpressIncrementalRendering: false,
+                    viewStyle: iOSViewStyle.PAGE_SHEET,
+                    animationEffect: iOSAnimation.FLIP_HORIZONTAL,
+                    allowsBackForwardNavigationGestures: true
+                }
+            }
+        });
+    }
 
   return (
     <IonPage>
@@ -145,7 +180,7 @@ const KnowledgeHub: React.FC = () => {
                     <div className="flex gap-2">
                       <IonButton fill="clear" onClick={() => openView(it)}>View</IonButton>
                       {it.source_url ? (
-                        <a href={it.source_url} target="_blank" rel="noreferrer" className="inline-flex items-center text-amber-600">
+                        <a href={it.source_url} onLoad={() => setCurrentURL(it.source_url ?? window.location.href)} target="_blank" rel="noreferrer" className="inline-flex items-center text-amber-600">
                           <LinkIcon size={14} className="mr-1 sm:mr-2 text-amber-600" />
                         </a>
                       ) : null}
@@ -167,7 +202,6 @@ const KnowledgeHub: React.FC = () => {
 
         <IonModal isOpen={viewOpen} onDidDismiss={() => setViewOpen(false)}>
           <IonContent>
-            
             <div className="p-4">
               <div className="flex items-center justify-between mb-2 sm:mb-4">
                 <IonTitle className="text-lg" color={"primary"}>{selected?.title}</IonTitle>

@@ -7,7 +7,7 @@ import { person } from "ionicons/icons";
 
 const TopNav: React.FC = () => {
 
-    // To customize webview, u must specify all the attributes
+    // Webview to Open SSP Ledger in the App
     const openWebView = async () => {
         await InAppBrowser.openInWebView({
             url: "https://sspledger.com.ng/",
