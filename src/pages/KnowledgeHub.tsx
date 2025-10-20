@@ -144,7 +144,7 @@ const KnowledgeHub: React.FC = () => {
               <p className="text-sm text-gray-600">Guides, trainings and resources for agribusiness clusters.</p>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center flex-wrap gap-2">
               <IonInput
                 placeholder="Search resources"
                 value={q}

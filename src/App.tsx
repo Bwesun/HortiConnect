@@ -66,6 +66,7 @@ import KnowledgeEditor from './pages/admin/KnowledgeEditor';
 import Communication from './pages/Communication';
 import ManageGroups from './pages/admin/Groups';
 import Chat from './pages/Chat';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 
 
 setupIonicReact();
@@ -78,15 +79,20 @@ const App: React.FC = () => {
 
   // HANDLE ANDROID BACK BUTTON
   useEffect(() => {
-    CapacitorApp.addListener('backButton', () => {
+    const handler = CapacitorApp.addListener('backButton', () => {
       const currentTime = new Date().getTime();
+      const isAtRoot = ['/home', '/'].includes(location.pathname);
 
-      // Check if you're on the root page (adjust path as needed)
-      if (location.pathname === '/home') {
+      if (isAtRoot) {
         if (currentTime - lastBackPress.current < 2000) {
           CapacitorApp.exitApp(); // Exit the app
         } else {
           lastBackPress.current = currentTime;
+
+          // Trigger vibration
+          Haptics.impact({ style: ImpactStyle.Medium });
+
+          // Show toast
           present({
             message: 'Press back again to exit',
             duration: 2000,
@@ -99,7 +105,7 @@ const App: React.FC = () => {
     });
 
     return () => {
-      CapacitorApp.removeAllListeners();
+      CapacitorApp.removeAllListeners(); // Clean up listener
     };
   }, [location.pathname, present]);
 

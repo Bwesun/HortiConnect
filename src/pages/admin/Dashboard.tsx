@@ -215,7 +215,7 @@ const Dashboard: React.FC = () => {
             <Link to="/admin/groups">
               <IonButton color="medium"><UsersIcon className="mr-2" /> Manage Groups</IonButton>
             </Link>
-            <IonButton color="danger" onClick={() => { navigator.clipboard.writeText(JSON.stringify({ users: stats.users })); }}><CaptionsIcon className="mr-2" /> Export Snapshot</IonButton>
+            <IonButton color="danger" onClick={() => { navigator.clipboard.writeText(JSON.stringify({ users: stats.users, listings: stats.listings, clusters: stats.clusters })); }}><CaptionsIcon className="mr-2" /> Export Snapshot</IonButton>
           </div>
 
           {/* Recent Listings */}
@@ -238,7 +238,7 @@ const Dashboard: React.FC = () => {
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Seller/Buyer</th>
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Price</th>
                     <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Action</th>
+                    {/* <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Action</th> */}
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -250,11 +250,11 @@ const Dashboard: React.FC = () => {
                       <td className="px-4 py-2 text-sm text-gray-700">{l.seller_name ?? l.buyer_name ?? "—"}</td>
                       <td className="px-4 py-2 text-sm text-gray-700">{l.price}</td>
                       <td className="px-4 py-2 text-sm text-gray-500">{l.created_at ? new Date(l.created_at).toLocaleDateString() : "—"}</td>
-                      <td className="px-4 py-2 text-right">
+                      {/* <td className="px-4 py-2 text-right">
                         <Link to={`/marketplace/${l.id}`} className="text-amber-600 inline-flex items-center">
                           View <ArrowRightIcon size={14} className="ml-1" />
                         </Link>
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
