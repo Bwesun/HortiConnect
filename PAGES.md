@@ -177,7 +177,7 @@ These pages are only accessible to admin users (App shows admin dashboard tab in
 ### /admin/knowledge/create & /admin/knowledge/edit/:id — KnowledgeEditor
 - Purpose: Create and edit knowledge articles
 - Features:
-  - WYSIWYG editor or rich text form
+  - WYSIWYG editor or rich text form 
   - Attach images and set categories
 - Services:
   - POST ${VITE_API_URL}/admin/knowledge

@@ -55,9 +55,9 @@ const TopNav: React.FC = () => {
                         {/* <IonButton fill="clear" shape="round">
                             <BellIcon size={22} />
                         </IonButton> */}
-                        <IonButton size="small" fill="clear" onClick={openWebView} shape="round">
+                        {/* <IonButton size="small" fill="clear" onClick={openWebView} shape="round">
                             <RefreshCw size={22} className="mr-1" /> <span className="mr-2 text-sm">SSP</span> 
-                        </IonButton>
+                        </IonButton> */}
                         <IonButton routerLink="/profile" shape="round" fill="clear">
                             <IonIcon slot="icon-only" icon={person} size="small" />
                         </IonButton>
