@@ -81,7 +81,8 @@
 }
 
 ion-content{
-	-margin-bottom: 6rem;
+	/* --padding-top: .5rem; */
+	--margin-bottom: 2rem;
 	--background: var(--ion-color-light);
 }
 

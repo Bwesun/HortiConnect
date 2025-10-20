@@ -107,7 +107,7 @@ const ViewProfile: React.FC = () => {
       <IonContent className="bg-gray-100">
         <div className="max-w-2xl m-auto">
           {/* Header/Profile Banner */}
-          <div className="bg-gradient-to-r from-green-700 to-[#f8982a] text-white p-2 sm:p-6 rounded-t-lg">
+          <div className="bg-gradient-to-r from-green-700 to-[#f8982a] text-white p-2 sm:p-6 rounded-t-lg pt-6">
             <div className="flex flex-col sm:flex-row items-center sm:items-start">
               <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full bg-white p-0.5 sm:p-1 sm:mb-0 sm:mr-6">
                 <img
