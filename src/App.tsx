@@ -9,10 +9,12 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  setupIonicReact
+  setupIonicReact,
+  useIonToast
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { HomeIcon, LayoutDashboard, Network, ShoppingCart, User } from "lucide-react";
+import { App as CapacitorApp } from '@capacitor/app';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -43,7 +45,7 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { StatusBar, Style } from "@capacitor/status-bar"
 import Dashboard from './pages/admin/Dashboard';
 import Home from './pages/Home';
@@ -70,6 +72,37 @@ setupIonicReact();
 
 const App: React.FC = () => {
   const { isLoading } = useAuth();
+  const [present] = useIonToast();
+  const location = useLocation();
+  const lastBackPress = useRef<number>(0);
+
+  // HANDLE ANDROID BACK BUTTON
+  useEffect(() => {
+    CapacitorApp.addListener('backButton', () => {
+      const currentTime = new Date().getTime();
+
+      // Check if you're on the root page (adjust path as needed)
+      if (location.pathname === '/home') {
+        if (currentTime - lastBackPress.current < 2000) {
+          CapacitorApp.exitApp(); // Exit the app
+        } else {
+          lastBackPress.current = currentTime;
+          present({
+            message: 'Press back again to exit',
+            duration: 2000,
+            position: 'bottom',
+          });
+        }
+      } else {
+        window.history.back(); // Navigate back
+      }
+    });
+
+    return () => {
+      CapacitorApp.removeAllListeners();
+    };
+  }, [location.pathname, present]);
+
   // SET STATUS BAR
   useEffect(() => {
     const setStatusBar = async () => {
