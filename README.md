@@ -13,8 +13,9 @@ A mobile-first Ionic React application that connects horticulture cluster member
 - Theme variables: `src/theme/variables.css`
 - Assets: `src/assets/hortiLogo.png`
 - Contexts: `src/contexts` (contains `AuthContext` — used as `useAuth`)
-- Pages: `src/pages` (see docs/pages.md for per-page documentation)
+- Pages: `src/pages` (see PAGES.md for per-page documentation)
 - Services: `src/services` (see docs/services.md for service contracts and templates)
+- **App Walkthrough Guide**: `APP_WALKTHROUGH_GUIDE.md` (comprehensive guide for creating user onboarding walkthroughs)
 
 ---
 
