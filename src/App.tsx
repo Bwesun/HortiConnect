@@ -67,6 +67,8 @@ import Communication from './pages/Communication';
 import ManageGroups from './pages/admin/Groups';
 import Chat from './pages/Chat';
 import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import VerifyOtpPage from './pages/auth/passwordreset/VerifyOPT';
+import ResetPasswordPage from './pages/auth/passwordreset/ResetPaswordPage';
 
 
 setupIonicReact();
@@ -145,7 +147,7 @@ const App: React.FC = () => {
 const AppContent: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
   const location = useLocation();
-  const showTabBar = !['/login', '/register'].includes(location.pathname);
+  const showTabBar = !['/login', '/register', '/forgot-password'].includes(location.pathname);
 
   return (
     <IonTabs>
@@ -154,6 +156,8 @@ const AppContent: React.FC = () => {
         <Route exact path="/register" component={RegisterPage} />
         <Route exact path="/home" component={Home} />
         <Route exact path="/knowledgehub" component={KnowledgeHub} />
+        <Route exact path="/verify-otp" component={VerifyOtpPage} />
+        <Route exact path="/reset-password" component={ResetPasswordPage} />
 
         <PrivateRoute exact path="/clusters" component={ClusterDirectory} isAuthenticated={isAuthenticated} />
         <PrivateRoute exact path="/viewcluster/:id" component={ViewCluster} isAuthenticated={isAuthenticated} />
