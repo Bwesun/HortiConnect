@@ -1,11 +1,14 @@
 import {
   IonPage, IonHeader, IonContent, IonTitle, IonToolbar,
   IonInput, IonButton, IonItem, IonLabel, IonToast, IonText, IonLoading,
-  IonInputOtp
+  IonInputOtp,
+  IonButtons,
+  IonIcon
 } from '@ionic/react';
 import { useState, useEffect } from 'react';
 import { verifyOtp, requestReset } from '../../../services/resetPasswordAuth';
 import { useHistory, useLocation } from 'react-router-dom';
+import { closeOutline } from 'ionicons/icons';
 
 const VerifyOtpPage: React.FC = () => {
   const [otp, setOtp] = useState('');
@@ -68,14 +71,43 @@ const VerifyOtpPage: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className='bg-gradient-to-r'><IonTitle color={'light'}>Verify OTP</IonTitle></IonToolbar>
+        <IonToolbar className='bg-gradient-to-r px-4'><IonTitle color={'light'}>Verify OTP</IonTitle>
+        <IonButtons slot="end">
+                            <IonButton routerLink='/login'>
+                              <IonIcon icon={closeOutline} color="light" slot="icon-only" />
+                            </IonButton>
+                          </IonButtons>
+        </IonToolbar>
       </IonHeader>
-      <IonContent className="ion-padding">
-        <IonItem>
-          <IonLabel color={'medium'} position="floating">Enter OTP sent to your email</IonLabel>
-          <IonInput type="number" value={otp} onIonChange={e => setOtp(e.detail.value!)} />
-            <IonInputOtp type="number" color={'primary'} length={6} value={otp} onIonChange={e => setOtp(e.detail.value!)} />
-        </IonItem>
+      <IonContent>
+        {/* <IonItem>
+                  <IonInput
+                    type="number"
+                    label="Enter OTP"
+                    labelPlacement="floating"
+                    value={otp}
+                    color={"primary"}
+                    onIonInput={(e) => setOtp(e.detail.value!)}
+                    required
+                    className=""
+                  />
+                </IonItem> */}
+        <div className='ion-text-center ion-margin-top ion-margin-bottom'>
+          <IonText color="medium">An OTP has been sent to your email: <br /><strong>{email}</strong></IonText>
+        </div>
+        <div className="flex justify-center items-center flex-col">
+            <IonText color="medium">Please enter the 6-digit OTP below:</IonText>
+            <IonItem className='flex flex-col justify-center'>
+                <IonInputOtp 
+                size='small' 
+                inputMode="numeric" 
+                type="number" 
+                color={'primary'} 
+                length={6} 
+                value={otp} 
+                onIonInput={e => setOtp(e.detail.value!)} />
+            </IonItem>
+        </div>
 
         <IonButton expand="block" onClick={handleVerify}>Verify OTP</IonButton>
 

@@ -177,7 +177,7 @@ const LoginPage: React.FC = () => {
           color="danger"
         />
 
-        <IonModal isOpen={isForgetPasswordModal} initialBreakpoint={0.25} onDidDismiss={() => setIsForgetPasswordModal(false)}>
+        <IonModal isOpen={isForgetPasswordModal} initialBreakpoint={0.35} onDidDismiss={() => setIsForgetPasswordModal(false)}>
               <IonContent className="ion-padding">
                 <div className="" style={{
                   display: "flex",
@@ -195,7 +195,7 @@ const LoginPage: React.FC = () => {
                 <div className="" style={{
                   }}
                   >
-                    <IonItem lines="none" className="ion-margin-bottom">
+                    <IonItem lines="none" className="ion-margin-bottom mb-4 border-b border-gray-300">
                       <IonIcon icon={mailOutline} color="primary" slot="start" />
                       <IonInput
                         type="email"
