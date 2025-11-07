@@ -18,7 +18,7 @@ import {
 import TopNav from "../../components/TopNav";
 import { Edit, Trash2Icon, RefreshCcwIcon, X, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001/api";
+const API_URL = import.meta.env.VITE_API_URL;
 const LIMIT = 15;
 
 type UserRow = {
